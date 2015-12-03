@@ -1,0 +1,186 @@
+
+/* stili il form di login */
+
+	form{
+		margin:40px 0px 30px 0px;
+	}
+
+	div.centratura{
+		text-align:center;
+	}
+
+	label {
+		font-weight:400;
+		font-size:14px;
+	}
+
+	.text-box {
+		background:#e6e6e6;
+		border:0px;
+		height:32px;
+		width:100%;
+		font-weight:400;
+	}
+
+	.distanziatore{
+		margin-top:20px;
+	}
+
+	.agency-login{
+		color:#333;
+		font-weight:700;
+		font-size:18px;
+	}
+
+	.login-separator{
+		width:100%;
+		display:block;
+		height:2px;
+		background:#e6e6e6;
+		margin: 0 auto;
+		margin-top:5px;
+	}
+
+	.check-separator{
+		margin-top:10px;
+	}
+
+	.allineamento-destra{
+		text-align:left;
+	}
+
+
+/* stili per le tabelle di riepilogo dati */
+
+	tr {
+		border-top:1px solid black;
+		border-bottom:1px solid black;
+	}
+
+	tr:hover{
+    background-color:#e6e6e6;
+}
+	
+	td{
+		padding:10px 20px 10px 0px;
+		font-size: 14px;
+	}
+
+	td.nome{
+		font-weight: 700;
+		font-size: 14px;
+	}
+
+	td.mail{
+		color:#e78000;
+		font-size: 14px;
+	}
+	
+	.box-mete{
+		margin-bottom:50px;
+		margin-top:3px;
+	}
+
+	.intestazione{
+		margin-bottom:15px;
+		font-weight: 700;
+	}	
+	
+/* stili per il messaggio di credenziali invalide */
+	
+	.credenziali-invalide{
+		color:red;
+		font-weight: 400;
+	}
+
+	
+/* stili per il bottone di logout */
+		
+	button.logout{
+		float:right;
+		margin-top:15px;
+	}
+
+	li{
+		color:black;
+	}	
+
+	img.immagine{
+		border-radius:100%;
+	}
+
+
+/* stili per la colonna delle mete */
+
+	a.list-group-item-success, button.list-group-item-success {
+		color: white;
+		background-color:#333333;
+		border-bottom:1px solid white;
+		border-top:1px solid white;
+		margin-left:-5px;
+	}
+
+	.list-group-item {
+		background-color: #e6e6e6;
+		border-bottom:1px solid #333333;
+		border-top:1px solid #333333;
+	}
+
+	p.num-persone{
+		margin:0px;
+		font-weight: 400;
+		font-size:12px;
+	}	
+
+	a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, button.list-group-item:hover {
+		border-left:8px solid #44b5c7;
+		color: #555;
+		text-decoration: none;
+		background-color: #f5f5f5;
+	}
+	a.list-group-item-success:focus, a.list-group-item-success:hover, button.list-group-item-success:focus, button.list-group-item-success:hover {
+		border-left:8px solid #44b5c7;
+		color:white;
+		background-color:#434142;
+	}
+	
+	i.freccetta{
+		float:right;
+	}
+	
+	i.freccetta-periodi{
+		float:right;
+		color:#555;
+	}
+	
+	li.list-group-item {
+		padding:7px 15px;
+		font-size:13px;
+	}
+	
+	.list-group-item:first-child {
+		border-top:1px solid white;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+
+	.list-group-item:last-child {
+		border-bottom:1px solid white;
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+	
+
+
+p.num-persone-totali {
+	color:#fff;
+}
+
+p.num-persone {
+	color:#333;
+}
+
+.centrato{
+	text-align:center;
+}
+	

@@ -1,0 +1,73 @@
+{% extends "layout-base.html.twig" %}
+
+{% block menu %} 
+			<div class="col-xs-6">
+		    	<div>
+					<a href="{{ url('agency/login') }}"><button type="submit" class="navbar-button logout">ESCI</button> </a>
+				</div>
+			</div>
+{% endblock %}
+
+{% block main %}
+			<div class="first container-fluid">
+	<div class="intestazione row">
+		<div class="col-xs-6 col-md-2 col-lg-3"> METE </div>
+		<div class="col-xs-6 col-md-2 col-lg-3"> UTENTI </div>
+	</div>
+	<div class="row">
+		{# in questo div viene inserito automaticamente l'elenco fake di mete #}
+		<div class="col-xs-6 col-md-2 col-lg-3">
+			
+			<div id="MainMenu">
+			  <div class="list-group panel elenco-mete"> </div>
+			</div>
+		</div>
+
+		<div class="box-mete col-xs-6 col-md-10 col-lg-9">
+			{# in questo div viene inserito automaticamente l'elenco fake di persone #}
+			<div class="elenco-persone"> </div>
+		</div>
+	</div>
+</div>		
+{% endblock %}
+
+{% block footer %}  
+			<div class="footer agency container-fluid">
+				<div class="row">
+					<div class="col-xs-12 col-md-4 col-md-offset-4">	
+						<a class="logo-footer" href="#" target="_blank"> <img alt="TuttiViaggi" src="/trippit_symfony/web/img/logo-agenzia.png"> </a>
+					</div>	
+				</div>
+				<div class="row">
+					©2015 TuttiViaggi&nbsp;&nbsp;| &nbsp;&nbsp;P.IVA 012344567&nbsp;&nbsp; | &nbsp;&nbsp;Note legali&nbsp;&nbsp; | &nbsp;&nbsp;Cookie policy&nbsp;&nbsp; | &nbsp;&nbsp;Credits
+				</div>
+			</div>
+			
+			{% block javascripts %}
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&signed_in=true&libraries=places&callback=initAutocomplete"async defer></script>
+				<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+				<script src="/trippit_symfony/vendor/bootstrap/js/bootstrap.min.js"></script>
+				<script src="/trippit_symfony/web/js/sticky-footer.js"> </script>
+				
+				{# caricamento della libreria di funzioni personalizzate per il progetto #}
+				<script src="js/personal-function.js"> </script>
+
+				{# libreria di funzioni personalizzate: richiamo della funzione di caricamento dati esterni, puntata sul generatore automatico di mete #}
+				<script> 
+					var path = "/trippit_symfony/src/faker-destination.php";
+					var data = "";
+					var classe = ".elenco-mete";
+					richiamaDati(path,data,classe);
+				</script>
+
+				{# libreria di funzioni personalizzate: richiamo della funzione di caricamento dati esterni, puntata sul generatore automatico di persone #}
+				<script> 
+					var path = "/trippit_symfony/src/faker-people.php";
+					var data = "";
+					var classe = ".elenco-persone";
+					richiamaDati(path,data,classe);
+				</script>
+			{% endblock %}
+			
+{% endblock %}

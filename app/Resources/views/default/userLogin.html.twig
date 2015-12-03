@@ -1,0 +1,27 @@
+{% extends "layout-base.html.twig" %}
+
+{% block menu %} {% endblock %}
+
+{% block main %}
+
+		<div class="login container-fluid">
+		    <div class="row">
+		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+		            <a href="{{ url('user/profile') }}"><button type="button" class="btn-login">Accedi con Facebook</button></a>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+		            <h5>Eseguendo l'accesso con Facebook concedi a Trippit l'accesso ad alcuni dei tuoi dati personali, inclusa la lista dei tuoi amici.</h5>
+		        </div>
+		    </div>
+		    <div class="text-link">
+		        <div class="row">
+		            <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+		                <a href="{{ url('user/home') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+{% endblock %}

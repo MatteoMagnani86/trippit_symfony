@@ -1,0 +1,197 @@
+/* Navbar */
+
+.header {
+	-webkit-box-shadow:0px 2px 1px 0px rgba(51,3,4,0.5);
+	-moz-box-shadow:0px 2px 1px 0px rgba(51,3,4,0.5);
+	box-shadow:0px 2px 1px 0px rgba(51,3,4,0.5);
+	border:0px;
+	border-radius:0px;
+	background-color:#35b6c5;
+	padding:0px;
+	border:0px;
+	margin:0px ;
+	height:58px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:9999;
+	width:100%;
+}
+
+.nav-bar .logo {
+ 	padding-left:15px;
+}
+
+.nav-bar .logo > img {
+ 	padding-top:15px;
+ 	height:50px;
+}
+
+.nav-bar #dropdownMenu1 {
+	border:0px;
+	background-color:transparent;
+	padding-top:20px;
+}
+
+.nav-bar .dropdown {
+	float:right;
+	margin-right:25px;
+}
+
+.nav-bar .dropdown:hover{
+  	background-color:rgba(51,3,4,0.2);
+}
+
+.nav-bar .dropdown-menu {
+	background-color:#333;
+	border-radius:1px;
+	text-align:center;
+	min-width:120px;
+}
+
+.nav-bar .dropdown-menu>li>a {
+    display:block;
+    padding:5px 20px;
+    clear:both;
+    font-weight:400;
+    line-height:1.42857143;
+    color:white;
+    white-space:nowrap;
+}
+
+.nav-bar .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:active {
+    background-color:#737373;
+}
+
+.nav-bar .dropdown-menu .divider {
+    height:1px;
+    margin:5px 0;
+    overflow:hidden;
+    background-color:#737373;
+}
+
+.nav-bar .centerDropdown {
+    left: auto !important;
+    right: -85% !important;
+}
+
+.nav-bar .centerDropdown:after {
+   left: auto !important;
+   right: 50% !important;
+}
+
+
+/* Footer */
+
+.footer {
+	font-weight:400;
+	background-color:#333;
+	text-align:center;
+	color:#e6e6e6;
+	font-size:11px;
+	letter-spacing:1px;
+	text-decoration:none;
+	padding-top:15px;
+}
+
+a.footer {
+   color:#fff;
+}
+
+a.footer:hover {
+    text-decoration:underline;
+    color:#fff;
+}   
+
+.footer-text {
+	text-transform:uppercase;
+}
+
+a.footerGoogle {
+	background-image:url('../img/social-google.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+a.footerGoogle:hover {
+	background-image:url('../img/social-google-hover.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+a.footerFacebook {
+	background-image:url('../img/social-facebook.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+a.footerFacebook:hover {
+	background-image:url('../img/social-facebook-hover.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+a.footerTwitter {
+	background-image:url('../img/social-twitter.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+a.footerTwitter:hover {
+	background-image:url('../img/social-twitter-hover.png');
+	height:30px;
+	width:30px;
+	margin:15px;
+	background-size:cover;
+	display:inline-block;
+}
+
+.separator{
+	width:100%;
+	display:block;
+	height:1px;
+	background:#595959;
+	margin:0px 0px;
+}
+
+.logo-footer> img{
+	height:25px;
+	margin:15px;
+}
+
+/* Nuovo sticky footer, senza fixed height */
+.page-wrap {
+  min-height:100%;
+  height:auto !important;
+  height:100%;
+}
+
+
+/* Vecchio sticky footer, con fixed height */
+/*.page-wrap {
+	min-height: 100%;
+	margin-bottom: -190px;
+}
+.page-wrap:after {
+	content: "";
+	display: block;
+}
+.footer, .page-wrap:after {
+	height: 190px;
+	padding: 30px 15px;
+}*/

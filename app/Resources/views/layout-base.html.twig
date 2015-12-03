@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	 <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>{% block titolo %}TrippIt{% endblock %}</title>
+	   
+	   	{% block stylesheets %}
+			<link href="/trippit_symfony/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type='text/css'>
+			<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,700' rel='stylesheet' type='text/css'>
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+			<link href="/trippit_symfony/web/css/style-agency.css" rel="stylesheet" type='text/css'>
+			<link href="/trippit_symfony/web/css/style.css" rel="stylesheet" type='text/css'>
+		{% endblock %}
+	</head>
+  
+    <body>
+
+		{% block navbar %}
+			<div class="page-wrap"> {# Open page-wrap for sticky footer #}
+				<div class="header container-fluid">
+					<div class="nav-bar">
+						{% block logo %}
+						<div class="col-xs-6">
+							<a class="logo" href="{{ url('user/home') }}" rel="home">
+								<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
+							</a>
+						</div>
+						{% endblock %}
+
+						{% block menu %}
+							<div class="col-xs-6">
+								<div class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<i class="material-icons md-48px">person</i>
+									</button>
+
+									{% block menuDropdown %}
+										<ul class="dropdown-menu centerDropdown" aria-labelledby="dropdownMenu1">
+											<li><a href="{{ url('user/profile') }}">Profilo</a></li>
+											<li><a href="{{ url('user/settings') }}">Impostazioni</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="{{ url('user/home') }}">Esci</a></li>
+										</ul>
+									{% endblock %}
+								</div>
+							</div>
+						{% endblock %}
+
+					</div>
+				</div>
+		{% endblock %}
+		
+		{% block main %} {% endblock %}
+			
+			</div> {# Close page-wrap for sticky footer #}
+		
+		{% block footer %}
+			<div class="footer container-fluid">
+				<div class="row">
+					<div class="col-xs-12 col-md-4 col-md-offset-4">	
+						<span class="footer-text">Seguici</span>
+					</div>	
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-4 col-md-offset-4">	
+						<a class="footerGoogle" href="https://plus.google.com" target="_blank"></a>
+						<a class="footerFacebook" href="https://facebook.com" target="_blank"></a>
+						<a class="footerTwitter" href="https://twitter.com" target="_blank"></a>	
+						<div class="separator"></div>	
+					</div>	
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-4 col-md-offset-4">	
+						<a class="logo-footer" href="#" target="_blank"> <img alt="TuttiViaggi" src="/trippit_symfony/web/img/logo-agenzia.png"> </a>
+					</div>	
+				</div>
+				<div class="row">
+					©2015 TuttiViaggi&nbsp;&nbsp;| &nbsp;&nbsp;P.IVA 012344567&nbsp;&nbsp; | &nbsp;&nbsp;Note legali&nbsp;&nbsp; | &nbsp;&nbsp;Cookie policy&nbsp;&nbsp; | &nbsp;&nbsp;Credits
+				</div>
+			</div>
+			
+			{% block javascripts %}
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&signed_in=true&libraries=places&callback=initAutocomplete"async defer></script>
+				<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+				<script src="/trippit_symfony/vendor/bootstrap/js/bootstrap.min.js"></script>
+				<script src="/trippit_symfony/web/js/sticky-footer.js"> </script>
+			{% endblock %}
+
+		{% endblock %}
+		
+	</body>
+</html>
+
+
+		

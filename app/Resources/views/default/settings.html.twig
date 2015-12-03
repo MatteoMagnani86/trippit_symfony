@@ -1,0 +1,48 @@
+{% extends "layout-base.html.twig" %}
+
+
+{% block main %} 
+		{# profile info #}
+		<div class="first container-fluid">
+		    <div class="row">
+		        <div class="circle-cropping">
+		            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
+		                <img class="img-circle" src="/trippit_symfony/web/img/trippit-profile-pic.jpg" alt="Roberta Verdi">
+		            </div>
+		        </div>
+		        <div class="col-xs-12 col-sm-8 col-md-4">
+		            <div class="block">
+		                <h2>Roberta Verdi</h2>
+		                <div class="separator"></div>
+		                <p>Milano</p>
+		                <div class="separator"></div>
+		                <h6>MOTTO</h6>
+		                <p>Travel is the only thing you buy that makes you richer.</p>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+		{# form #}
+		<div class="form-ask row container-fluid">
+		        <div class="col-xs-12 col-md-6 col-md-offset-3">
+		            <div class="block">
+			            <form>
+			                <h3>Impostazioni</h3>
+			                <h5>Aggiungi un indirizzo email</h5>
+			                <input type="text" placeholder="Es. nomecognome@gmail.com" type="text"></input>
+			                <br>
+			                <h5>Aggiungi numero di telefono</h5>
+			                <input type="text" placeholder="+39" type="text"></input>
+			                <br>
+			                <h5>Il tuo motto</h5>
+			                <textarea placeholder="Il tuo motto"></textarea>
+			                <input type="submit" id="submit" name="submit" value="Salva" />
+			                <a href="{{ url('user/profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+			            </form>
+		            </div>
+		            <div class="spacer"></div>
+		        </div>
+		    </div>
+		</div>
+{% endblock %}
