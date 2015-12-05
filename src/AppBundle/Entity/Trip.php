@@ -25,7 +25,7 @@ class Trip
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="insert_date", type="datetime")
+     * @ORM\Column(name="insert_date", type="date")
      */
     private $insertDate;
 
@@ -37,34 +37,36 @@ class Trip
     private $picture;
 
     /**
-     * @var boolean
+     * @var \DateTime
      *
-     * @ORM\Column(name="archived", type="boolean")
+     * @ORM\Column(name="archived", type="date")
      */
     private $archived;
-
+	
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="User", inversedBy="trips")
-	*@ORM\JoinColumn(name="user_id", referencedColumnName="id")
-	*/
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="trips")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 */
 	private $user;
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="Destination", inversedBy="trips")
-	*@ORM\JoinColumn(name="destination_id", referencedColumnName="id")
-	*/
+	 * @ORM\ManyToOne(targetEntity="Destination", inversedBy="trips")
+	 * @ORM\JoinColumn(name="destination_id", referencedColumnName="id")
+	 */
 	private $destination;
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="Period", inversedBy="trips")
-	*@ORM\JoinColumn(name="period_id", referencedColumnName="id")
-	*/
+	 * @ORM\ManyToOne(targetEntity="Period", inversedBy="trips")
+	 * @ORM\JoinColumn(name="period_id", referencedColumnName="id")
+	 */
 	private $period;
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Advice", mappedBy="trip")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Advice", mappedBy="trip")
+	 */
 	private $advices;
 	
 	// OneToMany relations
@@ -82,30 +84,6 @@ class Trip
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set data
-     *
-     * @param \DateTime $data
-     *
-     * @return Trip
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get data
-     *
-     * @return \DateTime
-     */
-    public function getData()
-    {
-        return $this->data;
     }
 
     /**
@@ -130,30 +108,6 @@ class Trip
     public function getPicture()
     {
         return $this->picture;
-    }
-
-    /**
-     * Set archived
-     *
-     * @param boolean $archived
-     *
-     * @return Trip
-     */
-    public function setArchived($archived)
-    {
-        $this->archived = $archived;
-
-        return $this;
-    }
-
-    /**
-     * Get archived
-     *
-     * @return boolean
-     */
-    public function getArchived()
-    {
-        return $this->archived;
     }
 
     /**
@@ -284,5 +238,29 @@ class Trip
     public function getAdvices()
     {
         return $this->advices;
+    }
+
+    /**
+     * Set archived
+     *
+     * @param \DateTime $archived
+     *
+     * @return Trip
+     */
+    public function setArchived($archived)
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived
+     *
+     * @return \DateTime
+     */
+    public function getArchived()
+    {
+        return $this->archived;
     }
 }

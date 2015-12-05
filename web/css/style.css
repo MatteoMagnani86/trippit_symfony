@@ -507,6 +507,16 @@ input[type="radio"], input[type="checkbox"] {
 	outline:none;
 }
 
+/* Flash messages */
+
+.notice p{
+	border:1px solid;
+	border-color:green;
+	color:green;
+	font-weight:700;
+	padding:0 15px;
+	margin:0 15px;
+}
 
 /* Content */
 

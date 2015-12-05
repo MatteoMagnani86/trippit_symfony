@@ -52,8 +52,10 @@ class Destination
 
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Trip", mappedBy="destination")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Trip", mappedBy="destination")
+	 */
 	private $trips;
 	
 	// OneToMany relations

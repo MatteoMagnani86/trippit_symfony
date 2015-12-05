@@ -23,16 +23,16 @@ class Relations
 
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="User", inversedBy="followers")
-	*@ORM\JoinColumn(name="follower_id", referencedColumnName="id")
+	* @ORM\ManyToOne(targetEntity="User", inversedBy="followers")
+	* @ORM\JoinColumn(name="follower_id", referencedColumnName="id")
 	*/
-	private $follwer;
+	private $user_follower;
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="User", inversedBy="followings")
-	*@ORM\JoinColumn(name="following_id", referencedColumnName="id")
+	* @ORM\ManyToOne(targetEntity="User", inversedBy="followings")
+	* @ORM\JoinColumn(name="following_id", referencedColumnName="id")
 	*/
-	private $following;
+	private $user_following;
 	
 
     /**
@@ -46,50 +46,50 @@ class Relations
     }
 
     /**
-     * Set follwer
+     * Set userFollower
      *
-     * @param \AppBundle\Entity\User $follwer
+     * @param \AppBundle\Entity\User $userFollower
      *
      * @return Relations
      */
-    public function setFollwer(\AppBundle\Entity\User $follwer = null)
+    public function setUserFollower(\AppBundle\Entity\User $userFollower = null)
     {
-        $this->follwer = $follwer;
+        $this->user_follower = $userFollower;
 
         return $this;
     }
 
     /**
-     * Get follwer
+     * Get userFollower
      *
      * @return \AppBundle\Entity\User
      */
-    public function getFollwer()
+    public function getUserFollower()
     {
-        return $this->follwer;
+        return $this->user_follower;
     }
 
     /**
-     * Set following
+     * Set userFollowing
      *
-     * @param \AppBundle\Entity\User $following
+     * @param \AppBundle\Entity\User $userFollowing
      *
      * @return Relations
      */
-    public function setFollowing(\AppBundle\Entity\User $following = null)
+    public function setUserFollowing(\AppBundle\Entity\User $userFollowing = null)
     {
-        $this->following = $following;
+        $this->user_following = $userFollowing;
 
         return $this;
     }
 
     /**
-     * Get following
+     * Get userFollowing
      *
      * @return \AppBundle\Entity\User
      */
-    public function getFollowing()
+    public function getUserFollowing()
     {
-        return $this->following;
+        return $this->user_following;
     }
 }

@@ -38,7 +38,7 @@ class Advice
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="insert_date", type="datetime")
+     * @ORM\Column(name="insert_date", type="date")
      */
     private $insertDate;
 
@@ -58,9 +58,9 @@ class Advice
 
 	
 	/**
-	*@ORM\ManyToOne(targetEntity="Trip", inversedBy="advices")
-	*@ORM\JoinColumn(name="trip_id", referencedColumnName="id")
-	*/
+	 * @ORM\ManyToOne(targetEntity="Trip", inversedBy="advices")
+	 * @ORM\JoinColumn(name="trip_id", referencedColumnName="id")
+	 */
 	private $trip;
 	
 

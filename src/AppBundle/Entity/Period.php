@@ -31,8 +31,10 @@ class Period
 
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Trip", mappedBy="period")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Trip", mappedBy="period")
+	 */
 	private $trips;
 	
 	// OneToMany relations

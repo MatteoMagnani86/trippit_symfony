@@ -46,7 +46,7 @@ class User
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birth", type="datetime")
+     * @ORM\Column(name="birth", type="date")
      */
     private $birth;
 
@@ -119,21 +119,27 @@ class User
      * @ORM\Column(name="advice_privacy", type="boolean")
      */
     private $advicePrivacy;
-
+	
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Trip", mappedBy="user")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Trip", mappedBy="user")
+	 */
 	private $trips;
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Relations", mappedBy="user")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Relations", mappedBy="user_follower")
+	 */
 	private $followers;
 	
 	/**
-	* @ORM\OneToMany(targetEntity="Relations", mappedBy="user")
-	*/
+	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="Relations", mappedBy="user_following")
+	 */
 	private $followings;
 	
 	// OneToMany relations
@@ -143,7 +149,7 @@ class User
 		$this->followers = new ArrayCollection();
 		$this->followings = new ArrayCollection();
 	}
-
+	
 	
     /**
      * Get id

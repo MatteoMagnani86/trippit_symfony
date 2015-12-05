@@ -13,17 +13,25 @@
 			        </div>
 			    </div>
 
+				{% for flash_message in app.session.flashbag.get('notice') %}
+					<div class="row">
+						<div class= "col-xs-12 col-md-6 col-md-offset-3 notice">
+							<p> {{ flash_message }} </p>
+						</div>
+					</div>
+				{% endfor %}
+				
 			    <div class="row">
 			        <div class="col-xs-12 col-md-6 col-md-offset-3">
 			            <div class="block">
-			            <form>
+			            <form action="{{ path('askadvice/mail') }}" method="post">
 			                <input type="checkbox" name="facebook-friends" value="facebook friends" checked>Amici di Facebook <br>
 			                <input type="checkbox" name="other-friends" value="other friends" unchecked>Altri amici
 			                <h6>Invia una richiesta di suggerimento ai tuoi amici che non usano Facebook. Inserisci gli indirizzi email separati dalla virgola.</h6>
-			                <input type="text" placeholder="Es. nomecognome@gmail.com" type="text"></input>
+			                <input type="text" placeholder="Es. nomecognome@gmail.com" type="text" name = "eMailReceiver"></input>
 			                <br>
 			                <h6>Aggiungi un messaggio personalizzato per i tuoi amici.</h6>
-			                <textarea placeholder="Il tuo messaggio"></textarea>
+			                <textarea placeholder="Il tuo messaggio" name = "eMailBody"></textarea>
 			                <input type="submit" id="submit" name="submit" value="Invia" />
 			                <a href="{{ url('user/profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
 			            </form>
