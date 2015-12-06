@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\UserBundle\Mailer\TwigSwiftMailer as BaseMailer;
 
 class MailController extends Controller
 {
@@ -34,7 +35,7 @@ class MailController extends Controller
 		$message->setFrom($sender);
 		$message->setTo($receiver);
 		$message->setSubject($object);
-		$message->setBody($body);			
+		$message->setBody($body);	
 			
 		// invio il messaggio
 		$mailer->send($message);		

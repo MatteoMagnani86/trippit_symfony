@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use AppBundle\Entity\User;
 
 // il nome della classe deve essere uguale al nome del file controller
 class TrippitController extends Controller{
@@ -46,7 +49,18 @@ class TrippitController extends Controller{
      * @Route("/user/profile", name="user/profile")
      */
     public function profileAction(Request $request){
-        return $this->render('default/profile.html.twig');
+		
+		$id = 2; 		
+		
+		$user = $this->getDoctrine()
+                ->getRepository('AppBundle:User')
+                ->find($id);
+				 
+		$periods = $this->getDoctrine()
+                ->getRepository('AppBundle:Period')
+				->findAll();							
+				
+        return $this->render('default/profile.html.twig', ['user' => $user,'periods' => $periods,]);		
     }   
 
     // action per richiamare le impostazioni
@@ -54,7 +68,13 @@ class TrippitController extends Controller{
      * @Route("/user/settings", name="user/settings")
      */
     public function settingsAction(Request $request){
-        return $this->render('default/settings.html.twig');
+        $id = 2;
+		
+		$user = $this->getDoctrine()
+                ->getRepository('AppBundle:User')
+                ->find($id);
+				
+        return $this->render('default/settings.html.twig', ['user' => $user,]);
     }
 
     // action per richiamare askAdvice

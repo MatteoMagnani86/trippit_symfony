@@ -7,17 +7,17 @@
 		    <div class="row">
 		        <div class="circle-cropping">
 		            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
-		                <img class="img-circle" src="/trippit_symfony/web/img/trippit-profile-pic.jpg" alt="Roberta Verdi">
+		                <img class="img-circle" src="/trippit_symfony/web/img/{{ user.picture }}" alt="Roberta Verdi">
 		            </div>
 		        </div>
 		        <div class="col-xs-12 col-sm-8 col-md-4">
 		            <div class="block">
-		                <h2>Roberta Verdi</h2>
+		                <h2>{{ user.name }} {{ user.surname }}</h2>
 		                <div class="separator"></div>
-		                <p>Milano</p>
+		                <p>{{ user.city }}</p>
 		                <div class="separator"></div>
 		                <h6>MOTTO</h6>
-		                <p>Travel is the only thing you buy that makes you richer.</p>
+		                <p>{{ user.slogan }}</p>
 		            </div>
 		        </div>
 		    </div>
@@ -30,13 +30,13 @@
 			            <form>
 			                <h3>Impostazioni</h3>
 			                <h5>Aggiungi un indirizzo email</h5>
-			                <input type="text" placeholder="Es. nomecognome@gmail.com" type="text"></input>
+			                <input type="text" placeholder="{{ user.firstmail }}" type="text"></input>
 			                <br>
 			                <h5>Aggiungi numero di telefono</h5>
-			                <input type="text" placeholder="+39" type="text"></input>
+			                <input type="text" placeholder="{{ user.mobile }}" type="text"></input>
 			                <br>
 			                <h5>Il tuo motto</h5>
-			                <textarea placeholder="Il tuo motto"></textarea>
+			                <textarea placeholder="{{ user.slogan }}"></textarea>
 			                <input type="submit" id="submit" name="submit" value="Salva" />
 			                <a href="{{ url('user/profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
 			            </form>
