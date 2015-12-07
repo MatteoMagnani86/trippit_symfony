@@ -12,12 +12,10 @@ class MailController extends Controller
 {
 	
 	/**
-     * @Route("/askadvice/mail/{urlid}", name="askadvice/mail")
+     * @Route("/askadvice/mail/", name="askadvice/mail")
      */
     public function adviceMailAction(Request $request)
 	{
-		$idUtente = $request->get('urlid');
-		
 		// istanzio l'oggetto mailer
 		$mailer = $this->get('mailer');
 		
