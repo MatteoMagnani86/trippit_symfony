@@ -38,7 +38,7 @@
 			                <h5>Il tuo motto</h5>
 			                <textarea placeholder="{{ user.slogan }}"></textarea>
 			                <input type="submit" id="submit" name="submit" value="Salva" />
-			                <a href="{{ url('user/profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+			                <a href="{{ path('user/profile', { 'urlid': id }) }}"><button type="button" class="btn btn-link">Annulla</button></a>
 			            </form>
 		            </div>
 		            <div class="spacer"></div>

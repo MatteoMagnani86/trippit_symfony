@@ -24,7 +24,7 @@
 					<div class="nav-bar">
 						{% block logo %}
 						<div class="col-xs-6">
-							<a class="logo" href="{{ url('user/home') }}" rel="home">
+							<a class="logo" href="{{ path('user/home', { 'urlid': id }) }}" rel="home">
 								<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
 							</a>
 						</div>
@@ -39,10 +39,10 @@
 
 									{% block menuDropdown %}
 										<ul class="dropdown-menu centerDropdown" aria-labelledby="dropdownMenu1">
-											<li><a href="{{ url('user/profile') }}">Profilo</a></li>
-											<li><a href="{{ url('user/settings') }}">Impostazioni</a></li>
+											<li><a href="{{ path('user/profile', { 'urlid': id }) }}">Profilo</a></li>
+											<li><a href="{{ path('user/settings', { 'urlid': id }) }}">Impostazioni</a></li>
 											<li role="separator" class="divider"></li>
-											<li><a href="{{ url('user/home') }}">Esci</a></li>
+											<li><a href="{{ path('user/home', { 'urlid': id }) }}">Esci</a></li>
 										</ul>
 									{% endblock %}
 								</div>

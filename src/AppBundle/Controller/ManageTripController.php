@@ -7,18 +7,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-class TripController extends Controller
+class ManageTripController extends Controller
 {
 	
 	/**
-     * @Route("/create/trip", name="create/trip")
+     * @Route("/create/trip{urlid}", name="create/trip")
      */
     public function createTripAction(Request $request)
 	{
-		
+		$idUtente = $request->get('urlid');
 			
 		
-		return $this->redirectToRoute('user/profile');
+		
+		
+		return $this->redirect($request->server->get('HTTP_REFERER'));
     }
 	
 }

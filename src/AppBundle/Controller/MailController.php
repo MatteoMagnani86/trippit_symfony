@@ -12,10 +12,11 @@ class MailController extends Controller
 {
 	
 	/**
-     * @Route("/askadvice/mail", name="askadvice/mail")
+     * @Route("/askadvice/mail/{urlid}", name="askadvice/mail")
      */
     public function adviceMailAction(Request $request)
 	{
+		$idUtente = $request->get('urlid');
 		
 		// istanzio l'oggetto mailer
 		$mailer = $this->get('mailer');
@@ -41,7 +42,7 @@ class MailController extends Controller
 		$mailer->send($message);		
 		
 		$this->addFlash('notice', 'Hai inviato una richiesta di consiglio');
-		return $this->redirectToRoute('user/askadvice');
+		return $this->redirect($request->server->get('HTTP_REFERER'));
     }
 	
 }

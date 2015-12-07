@@ -7,7 +7,7 @@
 			            <div class="block">
 			                <h3>Chiedi un consiglio</h3>
 			                <div class="separator"></div>
-			                <p>Londra / Natale</p>
+			                <p> {{ destination }} / {{ period }} </p>
 			                <div class="separator"></div>
 			            </div>
 			        </div>
@@ -24,7 +24,7 @@
 			    <div class="row">
 			        <div class="col-xs-12 col-md-6 col-md-offset-3">
 			            <div class="block">
-			            <form action="{{ path('askadvice/mail') }}" method="post">
+			            <form action="{{ path('askadvice/mail', { 'urlid': id }) }}" method="post">
 			                <input type="checkbox" name="facebook-friends" value="facebook friends" checked>Amici di Facebook <br>
 			                <input type="checkbox" name="other-friends" value="other friends" unchecked>Altri amici
 			                <h6>Invia una richiesta di suggerimento ai tuoi amici che non usano Facebook. Inserisci gli indirizzi email separati dalla virgola.</h6>
@@ -33,7 +33,7 @@
 			                <h6>Aggiungi un messaggio personalizzato per i tuoi amici.</h6>
 			                <textarea placeholder="Il tuo messaggio" name = "eMailBody"></textarea>
 			                <input type="submit" id="submit" name="submit" value="Invia" />
-			                <a href="{{ url('user/profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+			                <a href="{{ path('user/profile', { 'urlid': id }) }}"><button type="button" class="btn btn-link">Annulla</button></a>
 			            </form>
 			            </div>
 			            <div class="spacer"></div>

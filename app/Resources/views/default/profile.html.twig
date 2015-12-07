@@ -28,7 +28,7 @@
 			        <div class="col-xs-12 col-md-6 col-md-offset-3">
 			            <div class="add-trip">
 			                <!-- <form action="new-trip.php"> -->
-			                <form action="{{ path('create/trip') }}" method="post">
+			                <form action="{{ path('create/trip', { 'urlid': id }) }}" method="post">
 			                    <h4>Dove vorresti andare?</h4><br>
 			                    
 			                    {# Google Place Autocomplete Form #}
@@ -41,7 +41,7 @@
 			                    <h4>Quando vorresti partire?</h4><br>
 			                    <select name="periods">
 									<option value="Indifferente">Indifferente</option>
-									{% for period in periods %}
+									{% for period in periodsList %}
 										<option value="{{ period.description }}">{{ period.description }}</option>
 									{% endfor %}			             
 			                    </select>
@@ -59,100 +59,39 @@
 			        <div class="col-xs-12 col-md-6 col-md-offset-3">
 			        <section id="accordion">
 			            <h6>I tuoi viaggi (5/5)</h6>
-			            <div>
-			                <input type="checkbox" id="check-1" />
-			                <label for="check-1">
+			            
+						{% for trip in tripsList %}
+						<div>
+							<input type="checkbox" id="check-{{ loop.index }}" />
+							<label for="check-{{ loop.index }}">
+								<input type="checkbox" id="check-{{ loop.index }}" />
 			                    <div class="col-xs-10 col-md-11">
-			                    <h3>Berlino</h3></div>
+									<h3>{{ trip.destination.name }}</h3>
+								</div>
 			                    <div class="col-xs-2 col-md-1">
-			                    <a href="{{ url('user/askadvice') }}"><i class="material-icons">chat</i></a></div>
-			                    <p>Capodanno</p>
+									<a href="{{ path('user/askadvice', { 'urlid': id, 'destination': trip.destination.name, 'period': trip.period.description }) }}">
+										<i class="material-icons">chat</i>
+									</a>
+								</div>				
+									<p>{{ trip.period.description }}</p>								
 			                </label>
-			                <article>
+							<article>
 			                    <div class="spacer"></div>
 			                    <a>Elimina viaggio</a>
+								
+								{% for advice in advicesList %}							
+									<div class="separator"></div>
+									<h6>{{ advice.author }}</h6>
+									<p>{{ advice.description }}</p>
+								{% endfor %}
+								
 			                    <div class="separator"></div>
-			                    <h6>Gianni Bianchi</h6>
-			                    <p>Kreuzberg! E poi c'è un teatro che devi assolutamente vedere vicino a Rosa Luxemburg Platz. Adesso ti cerco il nome.</p>
+			                    <a href="#">Carica tutti i commenti</a>								
 			                </article>
-			            </div>
-			            <div>
-			                <input type="checkbox" id="check-2" />
-			                <label for="check-2">
-			                    <div class="col-xs-10 col-md-11">
-			                    <h3>Londra</h3></div>
-			                    <div class="col-xs-2 col-md-1">
-			                    <a href="{{ url('user/askadvice') }}"><i class="material-icons">chat</i></a></div>
-			                    <p>Primavera</p>
-			                </label>
-			                <article>
-			                    <div class="spacer"></div>
-			                    <a href="#">Elimina viaggio</a>
-			                    <div class="separator"></div>
-			                    <h6>Marco Rossi</h6>
-			                    <p>Che invidia! Se ci vai in primavera devi assolutamente andare in un locale sul tamigi che si chiama Spoon River.</p>
-			                    <div class="separator"></div>
-			                    <h6>Gianni Bianchi</h6>
-			                    <p>Vai a Shoreditch, è il quartiere più figo!</p>
-			                    <div class="separator"></div>
-			                    <h6>Chiara Verdi</h6>
-			                    <p>Ah... quanti ricordi! Secondo me dovresti andarci quando c'è il Glastonbury Festival.</p>
-			                    <div class="separator"></div>
-			                    <a href="#">Carica tutti i commenti</a>
-			                </article>
-			            </div>
-			            <div>
-			                <input type="checkbox" id="check-3" />
-			                <label for="check-3">
-			                    <div class="col-xs-10 col-md-11">
-			                    <h3>Roma</h3></div>
-			                    <div class="col-xs-2 col-md-1">
-			                    <a href="{{ url('user/askadvice') }}"><i class="material-icons">chat</i></a></div>
-			                    <p> Maggio</p>
-			                </label>
-			                <article>
-			                    <div class="spacer"></div>
-			                    <a>Elimina viaggio</a>
-			                    <div class="separator"></div>
-			                    <h6>Paola Rossi</h6>
-			                    <p>Se è già aperto, a cena/aperitivo prova il sushi al laghetto di Villa Ada. Di solito, sopratutto quando c'è anche la musica dal vivo, c'è un'atmosfera da vacanza tutta la settimana... stupendo!</p>
-			                </article>
-			            </div>
-			            <div>
-			                <input type="checkbox" id="check-4" />
-			                <label for="check-4">
-			                    <div class="col-xs-10 col-md-11">
-			                    <h3>Parigi</h3></div>
-			                    <div class="col-xs-2 col-md-1">
-			                    <a href="{{ url('user/askadvice') }}"><i class="material-icons">chat</i></a></div>
-			                    <p>Autunno</p>
-			                </label>
-			                <article>
-			                    <div class="spacer"></div>
-			                    <a>Elimina viaggio</a>
-			                    <div class="separator"></div>
-			                    <h6>Paola Rossi</h6>
-			                    <p>Per Parigi la lista è troppo lunga. Mi servono un paio di giorni per mandartela!</p>
-			                </article>
-			            </div>
-			            <div>
-			                <input type="checkbox" id="check-5" />
-			                <label for="check-5">
-			                    <div class="col-xs-10 col-md-11">
-			                    <h3>Atene</h3></div>
-			                    <div class="col-xs-2 col-md-1">
-			                    <a href="{{ url('user/askadvice') }}"><i class="material-icons">chat</i></a></div>
-			                    <p>Estate</p>
-			                </label>
-			                <article>
-			                    <div class="spacer"></div>
-			                    <a>Elimina viaggio</a>
-			                    <div class="separator"></div>
-			                    <h6>Giorgia Viola</h6>
-			                    <p>Secondo me devi assolutamente provare il pesce fresco e i frutti di mare in uno dei piccoli ristoranti sul porto di Mikrolimano.</p>
-			                </article>
-			            </div>
-			        </section>
+						</div>
+						{% endfor %}
+						
+					</section>
 			        </div>
 			    </div>
 			</div>

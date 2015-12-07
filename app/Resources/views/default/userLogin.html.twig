@@ -7,7 +7,7 @@
 		<div class="login container-fluid">
 		    <div class="row">
 		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-		            <a href="{{ url('user/profile') }}"><button type="button" class="btn-login">Accedi con Facebook</button></a>
+		            <a href="{{ path('user/profile', { 'urlid': id }) }}"><button type="button" class="btn-login">Accedi con Facebook</button></a>
 		        </div>
 		    </div>
 		    <div class="row">
@@ -18,7 +18,7 @@
 		    <div class="text-link">
 		        <div class="row">
 		            <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-		                <a href="{{ url('user/home') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+		                <a href="{{ path('user/home', { 'urlid': id }) }}"><button type="button" class="btn btn-link">Annulla</button></a>
 		            </div>
 		        </div>
 		    </div>

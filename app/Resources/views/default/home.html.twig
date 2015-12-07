@@ -2,7 +2,7 @@
 
 {% block menuDropdown %}
 		<ul class="dropdown-menu centerDropdown" aria-labelledby="dropdownMenu1">
-			<li><a href="{{ url('user/login') }}">Accedi</a>
+			<li><a href="{{ path('user/login', { 'urlid': id }) }}">Accedi</a>
 		</ul>
 {% endblock %}
 
@@ -15,7 +15,7 @@
 		            <h2>Chiedi a un amico!</h2>
 		        </p>
 		        <div class="col-xs-12 col-sm-4 col-sm-offset-4 hidden-xs">
-		            <a href="{{ url('user/login') }}"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
+		            <a href="{{ path('user/login', { 'urlid': id }) }}"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
 		        </div>
 		    </div>
 		</div>
@@ -28,7 +28,7 @@
 		<div class="container-fluid visible-xs-block">
 		    <div class="row">
 		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-		            <a href="{{ url('user/login') }}"><button type="button" class="btn btn-primary btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
+		            <a href="{{ path('user/login', { 'urlid': id }) }}"><button type="button" class="btn btn-primary btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
 		        </div>
 		    </div>
 		</div>
@@ -106,7 +106,7 @@
 		    <div class="row">
 		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
 		            <h4>Registrati con Facebook e inizia subito</h4>
-		            <a href="{{ url('user/login') }}"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
+		            <a href="{{ path('user/login', { 'urlid': id }) }}"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="material-icons md-48px">person</i>Accedi</button></a>
 		        </div>
 		    </div>
 		</div>
