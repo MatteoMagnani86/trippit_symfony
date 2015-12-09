@@ -22,13 +22,15 @@
 			<div class="page-wrap"> {# Open page-wrap for sticky footer #}
 				<div class="header container-fluid">
 					<div class="nav-bar">
+
 						{% block logo %}
-						<div class="col-xs-6">
-							<a class="logo" href="{{ path('user/home', { 'urlid': id }) }}" rel="home">
-								<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
+							<div class="col-xs-6">
+							<a href="{{ path('user/home', { 'urlid': id }) }}" class="logo" rel="home">
+							<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
 							</a>
-						</div>
+							</div>
 						{% endblock %}
+
 
 						{% block menu %}
 							<div class="col-xs-6">
@@ -45,6 +47,7 @@
 											<li><a href="{{ path('user/home', { 'urlid': id }) }}">Esci</a></li>
 										</ul>
 									{% endblock %}
+								
 								</div>
 							</div>
 						{% endblock %}

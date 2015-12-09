@@ -1,34 +1,51 @@
 {% extends "layout-base.html.twig" %}
 
+
 {% block logo %}
-			<div class="col-xs-12">
-				<a class="logo" rel="home">
-				<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
-				</a>
-			</div>
+	<div class="col-xs-12">
+		<a class="logo" id="solo" rel="home">
+		<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
+		</a>
+	</div>
 {% endblock %}
+
 
 {% block menu %} {% endblock %}
 
+
 {% block main %}
-        	{% trans_default_domain 'FOSUserBundle' %}
+    
+    {% trans_default_domain 'FOSUserBundle' %}
+	<div class="form-ask first container-fluid">
+		<div class="col-xs-12 col-md-4 col-md-offset-4">
+		    <div class="block">
+		    	<div class="separator"></div>
+			    <h2>Admin login</h2>
+			    <div class="separator"></div>
+            
             {% block fos_user_content %}
-
-
 				<form action="{{ path("fos_user_security_check") }}" method="post">
 				    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
 				    <label for="username">{{ 'security.login.username'|trans }}</label>
 				    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
 
+				    <div class="distanziatore">
 				    <label for="password">{{ 'security.login.password'|trans }}</label>
 				    <input type="password" id="password" name="_password" required="required" />
+				    </div>
 
 				    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
 				    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
 
-				    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+				    <div class="distanziatore">
+				    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" rel="data"/>
+				    </div>
 				</form>
-            {% endblock fos_user_content %}
+			{% endblock fos_user_content %}
+			
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

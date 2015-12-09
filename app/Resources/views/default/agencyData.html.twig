@@ -1,31 +1,71 @@
 {% extends "layout-base.html.twig" %}
 
+{% block logo %}
+	<div class="col-xs-6">
+		<a href="{{ path('fos_user_security_logout') }}" class="logo" rel="home">
+		<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
+		</a>
+	</div>
+{% endblock %}
+
 {% block menu %} 
-			<div class="col-xs-6">
-		    	<div>
-					<a href="{{ url('agency/login') }}"><button type="submit" class="navbar-button logout">ESCI</button> </a>
-				</div>
-			</div>
+	<div class="col-xs-6">
+		<div>
+			<a href="{{ path('fos_user_security_logout') }}"><button type="submit" class="navbar-button logout">ESCI</button> </a>
+		</div>
+	</div>
 {% endblock %}
 
 {% block main %}
-			<div class="first container-fluid">
+<div class="first container-fluid">
 	<div class="intestazione row">
 		<div class="col-xs-6 col-md-2 col-lg-3"> METE </div>
 		<div class="col-xs-6 col-md-2 col-lg-3"> UTENTI </div>
 	</div>
 	<div class="row">
-		{# in questo div viene inserito automaticamente l'elenco fake di mete #}
-		<div class="col-xs-6 col-md-2 col-lg-3">
-			
+		{# in questo div viene inserito l'elenco di destinazioni #}
+		<div class="col-xs-6 col-md-2 col-lg-3">			
 			<div id="MainMenu">
-			  <div class="list-group panel elenco-mete"> </div>
+				<div class="list-group panel elenco-mete">
+
+					{# funzionalità da terminare #}
+					
+					{% for destination in destinationsList %}
+						<a href="#demo{{ loop.index }}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu"> 
+							{{ destination.name }} 
+							<i class="material-icons md-24px freccetta">expand_more</i>
+							<p class="num-persone-totali">10</p>
+						</a>
+						<div class="collapse" id="demo{{ loop.index }}">
+							{% for period in periodsList %}								
+								<a class="list-group-item">
+									{{ period.description }}
+									<i class="material-icons md-24px freccetta-periodi">chevron_right</i>
+									<p class="num-persone">5</p>
+								</a>									
+							{% endfor %}
+						</div>
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 
 		<div class="box-mete col-xs-6 col-md-10 col-lg-9">
-			{# in questo div viene inserito automaticamente l'elenco fake di persone #}
-			<div class="elenco-persone"> </div>
+			{# in questo div viene inserito l'elenco di persone #}
+			<div class="elenco-persone">			
+				<table>
+					{% for user in usersList %}
+						<tr>
+							<td> <img class="immagine" src="/trippit_symfony/web/img/{{ user.picture }}"> </td>
+							<td class="nome"> {{ user.name }} {{ user.surname }} </td>
+							<td> {{ user.city }} </td>
+							<td> {{ user.mobile }} </td>
+							<td class="mail"> {{ user.firstmail }} </td>
+							<td> <a href="{{ path('user/profile', { 'urlid': user.id }) }}"><button class="button" type="submit">VEDI PROFILO</button></a></td>
+						</tr>
+					{% endfor %}
+				</table>			
+			</div>
 		</div>
 	</div>
 </div>		

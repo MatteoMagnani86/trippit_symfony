@@ -1,5 +1,13 @@
 {% extends "layout-base.html.twig" %}
 
+{% block logo %}
+	<div class="col-xs-12">
+		<a href="{{ path('user/home', { 'urlid': id }) }}" class="logo" id="solo" rel="home">
+		<img alt="Brand" src="/trippit_symfony/web/img/logo.png">
+		</a>
+	</div>
+{% endblock %}
+
 {% block menu %} {% endblock %}
 
 {% block main %}

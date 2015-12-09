@@ -14,13 +14,13 @@ class TrippitController extends Controller
 {	
 
 	// action per richiamare il login agenzia
-	/**
-     * @Route("/agency/login", name="agency/login")
-     */
-    public function loginAction(Request $request)
-	{
-        return $this->render('default/agencyLogin.html.twig');
-    }
+	 // /**
+     // * @Route("/agency/login", name="agency/login")
+     // */
+    // public function loginAction(Request $request)
+	// {
+    //     return $this->render('vendor/friendsofsymfony/user-bundle/Resources/views/Security/login.html.twig');
+    // }
 
 	
     // action per richiamare il report per l'agenzia
@@ -29,7 +29,28 @@ class TrippitController extends Controller
      */
     public function dataAction(Request $request)
 	{
-        return $this->render('default/agencyData.html.twig');
+		// recupero dal DB tutti gli utenti
+		$erUser = $this->getDoctrine()->getRepository('AppBundle:User');
+		$usersList = $erUser->findAll();
+
+		// recupero dal DB la lista completa dei periodi
+		$erPeriod = $this->getDoctrine()->getRepository('AppBundle:Period');				
+		$periodsList = $erPeriod->findAll();
+	
+		// recupero dal DB la lista completa delle destinazione	
+		$erDestination = $this->getDoctrine()->getRepository('AppBundle:Destination');
+        $destinationsList = $erDestination->findAll();
+		
+		// recupero dal DB la lista completa dei viaggi		
+		$erTrip = $this->getDoctrine()->getRepository('AppBundle:Trip');
+        $tripsList = $erTrip->findAll();
+		
+		return $this->render('default/agencyData.html.twig',[
+			'usersList' => $usersList,
+			'periodsList' => $periodsList,
+			'destinationsList' => $destinationsList,
+			'tripsList' => $tripsList,
+		]);	
     }
 	
 	
@@ -83,7 +104,7 @@ class TrippitController extends Controller
 		
 		// recupero dal DB la lista completa dei commenti
 		$erAdvice = $this->getDoctrine()->getRepository('AppBundle:Advice');
-        $advicesList = $erAdvice->findByTrip(2);		
+        $advicesList = $erAdvice->findByTrip(1);		
 		
         return $this->render('default/profile.html.twig',[
 			'id' => $idUtente,

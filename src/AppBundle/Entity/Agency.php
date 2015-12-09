@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Agency
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\agencyRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\AgencyRepository")
  */
 class Agency extends BaseUser
 {

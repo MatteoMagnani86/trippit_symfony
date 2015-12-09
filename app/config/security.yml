@@ -1,29 +1,3 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
-security:
-
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory:
-            memory: ~
-
-    firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-    
-# app/config/security.yml
 security:
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
@@ -42,6 +16,8 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+                login_path: /agency/login
+                default_target_path: /agency/data
 
             logout:       true
             anonymous:    true
