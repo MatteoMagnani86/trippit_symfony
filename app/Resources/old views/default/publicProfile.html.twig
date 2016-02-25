@@ -1,0 +1,118 @@
+{% extends "layout-base.html.twig" %}
+
+{% block head %}
+		{# Script per gestire la chiamata a panoramio #}
+		<script src="http://www.panoramio.com/wapi/wapi.js?v=1&hl=it" type="text/javascript"></script>
+		{{ parent() }}
+{% endblock %}
+
+{% block main %}	
+	
+	{# profile info #}
+	<div class="first container-fluid">
+		<div class="row">
+			<div class="circle-cropping">
+				<!-- div nel quale viene caricata la foto ad alta definizione di facebook -->
+				 <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
+					<img class="img-circle" src="{{ picture }}" alt="{{ userName }}">
+				</div>					
+			</div>
+			<div class="col-xs-12 col-sm-8 col-md-4">
+				<div class="block">
+					<!-- div nel quale viene caricato il nome di facebook -->
+					<div id="profileName">
+						<h2>{{ userNamePublic }}</h2>
+					</div>
+					<div class="separator"></div>
+					<p>{{ location }}</p>
+					<div class="separator"></div>
+					<h6>MOTTO</h6>
+					{% if motto == 'Inserisci il tuo motto!' %}
+						<td>  Motto non inserito </td>
+					{% else %}	
+						<td>  {{ motto }} </td>								
+					{% endif %}
+				</div>
+			</div>
+		</div>	
+
+	{# accordion for trips and comments #}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<section id="accordion">
+				{% if countTrip == 0 %}
+					<h6>{{ firstName }} Non ha viaggi in programma</h6>
+				{% elseif countTrip == 1 %}
+					<h6>{{ firstName }} ha in programma {{ countTrip }} viaggio</h6>
+				{% else %}
+					<h6>{{ firstName }} ha in programma {{ countTrip }} viaggi</h6>
+				{% endif %}
+				
+				{% for trip in tripsList %}
+				<div>
+					<input type="checkbox" id="check-{{ loop.index }}" />
+					<label for="check-{{ loop.index }}">
+						<input type="checkbox" id="check-{{ loop.index }}" />
+						<div class="row">
+							<div class="col-xs-8 col-md-10">
+								<h3>{{ trip.destination.name }}</h3>
+							</div>		
+						</div>
+						<div class="row">
+							<div class="col-xs-12">		
+								<p>{{ trip.period.description }}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+							
+								{# impostazione della request a panoramio #}								
+								
+								<div id="div_list_ex{{ loop.index }}" class="panoramio"></div>							
+								
+								<script type="text/javascript">
+									var destination{{ loop.index }} = 
+									{
+										'tag': '{{trip.destination.name}}',
+										'rect': {'sw': {'lat': {{trip.destination.latitude}}-0.2, 'lng': {{trip.destination.longitude}}-0.2}, 'ne': {'lat': {{trip.destination.latitude}}+0.2, 'lng': {{trip.destination.longitude}}+0.2}}
+									};
+									var list_ex_options{{ loop.index }} = 
+									{
+										'width': 450,
+										'height': 100,
+										'columns': 5,
+										'croppedPhotos': true
+									};
+									var list_ex_widget{{ loop.index }} = new panoramio.PhotoListWidget('div_list_ex{{ loop.index }}', destination{{ loop.index }}, list_ex_options{{ loop.index }});
+									list_ex_widget{{ loop.index }}.setPosition(0);								
+								</script>
+								
+							</div>							
+						</div>						
+					</label>
+					<article>						
+						{% for advice in advicesList %}
+							{% if advice.trip == trip.id %}	
+								<div class="separator"></div>
+								<h6>{{ advice.author }}</h6>
+								<p>{{ advice.description }}</p>
+							{% endif %}	
+						{% endfor %}
+						
+						<div class="separator"></div>
+						<a href="#">Carica tutti i commenti</a>								
+					</article>
+				</div>
+				{% endfor %}				
+			</section>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}
+{% block javascripts %}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&signed_in=true&libraries=places&callback=initAutocomplete"async defer></script>
+	<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+	{{ parent() }}	
+{% endblock %}

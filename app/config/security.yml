@@ -18,12 +18,42 @@ security:
                 csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
                 login_path: /agency/login
                 default_target_path: /agency/data
+            logout:
+                path: /agency/logout
+                target: /home
 
             logout:       true
+            anonymous:    true			
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                login_path:        /login
+                failure_path:      /login
+                default_target_path: /profile
+
+                oauth_user_provider:
+                    #this is my custom user provider, created from FOSUBUserProvider - will manage the
+                    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+                    service: my_user_provider
+            logout:       true
             anonymous:    true
+
+        login:
+            pattern:  ^/login$
+            security: false
+
+            remember_me:
+                key: "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path: /profile
+                domain: ~ # Defaults to the current domain from $_SERVER
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/agency/data, role: ROLE_ADMIN }
+        - { path: ^/profile, role: ROLE_USER }
+        - { path: ^/settings, role: ROLE_USER }
+        - { path: ^/askadvice, role: ROLE_USER }

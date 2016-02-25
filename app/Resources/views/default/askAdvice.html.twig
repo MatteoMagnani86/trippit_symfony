@@ -1,43 +1,57 @@
 {% extends "layout-base.html.twig" %}
 
 {% block main %} 
-			<div class="form-ask first container-fluid">
-			    <div class="row">
-			        <div class="col-xs-12 col-md-6 col-md-offset-3">
-			            <div class="block">
-			                <h3>Chiedi un consiglio</h3>
-			                <div class="separator"></div>
-			                <p> {{ destination }} / {{ period }} </p>
-			                <div class="separator"></div>
-			            </div>
-			        </div>
-			    </div>
-
-				{% for flash_message in app.session.flashbag.get('notice') %}
-					<div class="row">
-						<div class= "col-xs-12 col-md-6 col-md-offset-3 notice">
-							<p> {{ flash_message }} </p>
-						</div>
-					</div>
-				{% endfor %}
-				
-			    <div class="row">
-			        <div class="col-xs-12 col-md-6 col-md-offset-3">
-			            <div class="block">
-			            <form action="{{ path('askadvice/mail') }}" method="post">
-			                <input type="checkbox" name="facebook-friends" value="facebook friends" checked>Amici di Facebook <br>
-			                <input type="checkbox" name="other-friends" value="other friends" unchecked>Altri amici
-			                <h6>Invia una richiesta di suggerimento ai tuoi amici che non usano Facebook. Inserisci gli indirizzi email separati dalla virgola.</h6>
-			                <input type="text" placeholder="Es. nomecognome@gmail.com" type="text" name = "eMailReceiver"></input>
-			                <br>
-			                <h6>Aggiungi un messaggio personalizzato per i tuoi amici.</h6>
-			                <textarea placeholder="Il tuo messaggio" name = "eMailBody"></textarea>
-			                <input type="submit" id="submit" name="submit" value="Invia" />
-			                <a href="{{ path('user/profile', { 'urlid': id }) }}"><button type="button" class="btn btn-link">Annulla</button></a>
-			            </form>
-			            </div>
-			            <div class="spacer"></div>
-			        </div>
-			    </div>
+	<div class="form-ask first container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<div class="block">
+					<h3>Chiedi un consiglio</h3>
+					<div class="separator"></div>
+					<p> {{ destination }} / {{ period }} </p>
+					<div class="separator"></div>
+				</div>
 			</div>
+		</div>		
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<div class="block">
+					{{ form_start(formAskAdvice) }}
+						{{ form_widget(formAskAdvice.facebookCheck, {'attr': {'checked': 'true'} }) }} Amici di Facebook
+						<br>
+						{% for friend in friendList %}
+							<a href="{{ path('profile',{'userId': friend.id}) }}" target="_blank">
+								<img class="imgStatusLogged" src="{{ friend.picture }}" title="{{ friend.username }}"/>
+							</a>
+						{% endfor %}
+						<br><br>
+						{{ form_widget(formAskAdvice.friendsCheck, {'id': 'yourBox'}) }} Altri amici
+						<h6>Invia una richiesta di suggerimento ai tuoi amici che non usano Facebook. Inserisci gli indirizzi email separati dalla virgola.</h6>
+						{{ form_widget(formAskAdvice.mailList, {'attr': {'placeholder': 'Es. nomecognome@gmail.com', 'disabled': 'true'} }) }}
+						<br>
+						<h6>Aggiungi un messaggio personalizzato per i tuoi amici.</h6>
+						{{ form_widget(formAskAdvice.body, {'attr': {'placeholder': ' Il tuo messaggio'} }) }}
+						{{ form_widget(formAskAdvice.save, {'attr': {'class': 'btn btn-advice'} }) }}
+					{{ form_end(formAskAdvice) }}
+					
+					<br><br>					
+				</div>
+			</div>
+		</div>
+		
+		<!-- attivazione del textbox di inserimento di email alternative -->
+		<script>
+			document.getElementById('yourBox').onchange = function()
+			{
+				document.getElementById('form_mailList').disabled = !this.checked;
+			};
+		</script>	
+
+		{% for flash_message in app.session.flashbag.get('notice') %}
+			<div class="row">
+				<div class= "col-xs-12 col-md-6 col-md-offset-3 notice">
+					<p> {{ flash_message }} </p>
+				</div>
+			</div>
+		{% endfor %}<br>		
+	</div>
 {% endblock %}

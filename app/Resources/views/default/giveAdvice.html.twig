@@ -1,48 +1,51 @@
 {% extends "layout-base.html.twig" %}
 
-{% block menuDropdown %}
-		<ul class="dropdown-menu centerDropdown" aria-labelledby="dropdownMenu1">
-			<li><a href="{{ url('user/login') }}">Accedi</a>
-		</ul>
-{% endblock %}
-
 {% block main %} 
-		{# profile info #}
+	{# profile info #}
 		<div class="first container-fluid">
 		    <div class="row">
 		        <div class="circle-cropping">
 		            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
-		                <img class="img-circle" src="/trippit_symfony/web/img/trippit-profile-pic.jpg" alt="Roberta Verdi">
+		                <img class="img-circle" src="{{ user.picture }}" alt="{{ user.username }}">
 		            </div>
 		        </div>
 		        <div class="col-xs-12 col-sm-8 col-md-4">
 		            <div class="block">
-		                <h2>Roberta Verdi</h2>
+		                <h2>{{ user.username }}</h2>
 		                <div class="separator"></div>
-		                <p>Milano</p>
+		                <p>{{ user.location }}</p>
 		                <div class="separator"></div>
 		                <h6>MOTTO</h6>
-		                <p>Travel is the only thing you buy that makes you richer.</p>
+		                {% if user.motto == 'Inserisci il tuo motto!' %}
+							<td>  Motto non inserito </td>
+						{% else %}	
+							<td>  {{ user.motto }} </td>								
+						{% endif %}
 		            </div>
 		        </div>
 		    </div>
 		</div>
 
-		{# form #}
+	{# form #}
 		<div class="form-ask container-fluid">
 		    <div class="row">
 		        <div class="col-xs-12 col-md-6 col-md-offset-3">
-		            <div class="block">
-			            <form>
-			                <h3>Dai un consiglio a Roberta</h3>
-			                <div class="separator"></div>
-						    <p>Londra / Natale</p>
-						    <div class="separator"></div>
-			                <h5>Il tuo consiglio</h5>
-			                <textarea placeholder="Scrivi qui il tuo consiglio"></textarea>
-			                <input type="submit" id="submit" name="submit" value="Salva" />
-			                <a href="{{ url('user/home') }}"><button type="button" class="btn btn-link">Annulla</button></a>
-			            </form>
+		            <div class="block">						
+						
+						<p>{{ firstName }} vorrebbe un consiglio da te sul suo prossimo viaggio</p>
+			            <div class="separator"></div>
+						<h4>{{ destination.name }} / {{ period.description }}</h4>
+						<div class="separator"></div>					
+						{% if tokenAttivo == 'yes' %}
+							{{ form_start(formAdvice) }}
+								{{ form_widget(formAdvice.author, {'attr': {'placeholder': 'Il tuo nome'} }) }}
+								{{ form_widget(formAdvice.advice, {'attr': {'placeholder': ' Il tuo consiglio'} }) }}
+								{{ form_widget(formAdvice.save, {'attr': {'class': 'btn btn-advice'} }) }}
+							{{ form_end(formAdvice) }}
+						{% else %}
+							<br>
+							<h5>Grazie! Il tuo consiglio è stato inviato correttamente.</h5>
+						{% endif %}
 		            </div>
 		            <div class="spacer"></div>
 		        </div>

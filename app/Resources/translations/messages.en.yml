@@ -2,3 +2,39 @@ security.login.password: Password
 security.login.username: Username
 security.login.remember_me: Remember me
 security.login.submit: Invia
+
+
+# form.email: email
+# password.confirmation: Password confirmation
+# user.number: {0}No user | {1}User | ]1,100[Some Users | [100, inf]A lot of users
+
+# Nell'ultima, sto facendo un esempio di possibile traduzione multipla 
+# A seconda del numero ad esempio, posso avere nessun utente, 1 utente, tanti utenti
+# La stessa stringa, in base a un valore, può cambiare
+
+# ] [ le quadre a rovescio significano escludo (qui è escluso 1 e fino 99)
+# [ ] le quadre normali significano incluso (qui è incluso da 100 a infinito)
+
+# user.number: {0}No user | {1}User | ]1,inf[%count%Users
+
+# %count% mi conta e scrive il numero collegato a quel valore
+# per contare chiaramete dovrò avere nel controller un array che me li conta
+
+# myapp.welcome.message: Welcome %name%
+
+
+
+# <body>
+# 	<h1>{{'myapp.welcome.message' | trans({%name% : username} )}}</h1>
+# 	<h3>{{ 'myapp.title' | trans}}</h3>
+# 	<p>{{ 'myapp.users' | transchoice(elenco_utenti|lenght) }}</p>
+# </body>
+
+# {%name% : username} ovviamente qui ci dovrà essere una Action corrispondente
+# nel controll
+
+
+# public function profileAction($username)
+# {
+#	$profiloUtente = $this->entityRepository('User')->loadByUsername
+#}

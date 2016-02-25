@@ -1,0 +1,96 @@
+{% extends "layout-base.html.twig" %}
+
+
+{% block main %} 
+<div class="big-image-trip container-fluid">
+	<div class="row">
+		<div class="col-sm-3 affix">
+        	<div class="sidebar-module sidebar-module-inset">
+	        	<div class="col-xs-12">	
+	        		<img class="img-circle" src="{{ picture }}" alt="{{ userName }}">
+	        	</div>
+		            <h3>{{ trip.destination.name }}</h3>
+		            <p>{{ trip.period.description }}</p>
+		            <div class="sidebar-delete">
+		            	<a href="{{ path('archive_trip', { 'tripId': trip.id })}}"><i class="material-icons">delete</i></a>
+		            </div>
+		            <div class="btn-group dropup form-add">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span><i class="material-icons">add</i></span>
+					    <span class="sr-only">Toggle Dropdown</span>
+					  </button>
+					  <ul class="dropdown-menu">
+					  	<h4>
+					    {{ form_start(formPlanner) }}
+					    	<h6>Scegli un luogo da visitare</h6>
+							{{ form_widget(formPlanner.place, {'id': 'pac-input', 'class': 'controls', 'type': 'text', 'placeholder': 'Search Box'}) }}
+							<h6>Indica il giorno di viaggio</6>
+							{{ form_widget(formPlanner.day) }}
+							<h6>Aggiungi una nota</6>
+							{{ form_widget(formPlanner.note) }}
+							{{ form_widget(formPlanner.save) }}
+						{{ form_end(formPlanner) }}
+					  </ul>
+					</div>
+		    </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+
+    	<div class="col-sm-3 blog-sidebar"> <!-- inizio sidebar -->
+          <div class="sidebar-module tips">
+            <h4>Friends' tips</h4>
+			{% for advice in advicesList %}
+				{% if advice.trip == trip.id %}
+					<div class="separator"></div>
+					<h6>{{ advice.author }}</h6>
+					<p><i class="material-icons">star</i>{{ advice.description }}</p>
+					<br>
+					<div class="separator"></div>
+				{% endif %}
+			{% endfor %}
+          </div>
+        </div>                              <!-- fine sidebar -->
+
+        <div class="col-xs-12 col-sm-8 blog-main"> <!-- inizio main -->
+
+	        <div class="blog-post">
+	            <h2 class="blog-post-title">Day 1</h2>
+	            <a><i class="material-icons">location_on</i></a>
+	            <h4>Golden Gate Bridge</h4>
+	            
+	            <span class="blog-post-meta">San Francisco</span>
+
+	            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+
+	            <br>
+	            <a><i class="material-icons">location_on</i></a>
+	            <h4>Castro</h4>
+	            <span class="blog-post-meta">San Francisco</span>
+
+	            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Cum sociis natoque penatibus et magnis <a href="#">eget lacinia</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p><!-- inizio blog-post --><!-- inizio blog-post -->
+	        </div>                    <!-- fine blog-post -->
+	        <div class="separator"></div>
+	        <div class="blog-post">   <!-- inizio blog-post -->
+	            <h2 class="blog-post-title">Day 2</h2>
+	            <a><i class="material-icons">location_on</i></a>
+	            <h4>McMillian Winery</h4>
+	            <span class="blog-post-meta">Napa Valley</span>
+
+	            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. <br> Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+	        </div>                    <!-- fine blog-post -->
+        
+        </div>                                     <!-- fine main -->
+
+	</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&libraries=places&callback=initAutocompletePlace" async defer></script>
+	<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+	{{ parent() }}	
+{% endblock %}

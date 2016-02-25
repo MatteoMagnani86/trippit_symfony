@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
-
 /**
  * PeriodRepository
  *
@@ -11,9 +9,9 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class PeriodRepository extends \Doctrine\ORM\EntityRepository
-{	
+{
 	public function findAll()
     {
-		return $this->findBy(array(), array('description' => 'ASC'));		
-    }
+        return $this->findBy(array(), array('description' => 'ASC'));
+    }	
 }

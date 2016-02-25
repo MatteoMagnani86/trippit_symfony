@@ -1,101 +1,178 @@
 {% extends "layout-base.html.twig" %}
 
-{% block main %} 
-			{# profile info #}
-			<div class="first container-fluid">
-			    <div class="row">
-			        <div class="circle-cropping">
-			            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
-			                <img class="img-circle" src="/trippit_symfony/web/img/{{ user.picture }}" alt="Roberta Verdi">
-			            </div>
-			        </div>
-			        <div class="col-xs-12 col-sm-8 col-md-4">
-			            <div class="block">
-			                <h2>{{ user.name }} {{ user.surname }}</h2>
-			                <div class="separator"></div>
-			                <p>{{ user.city }}</p>
-			                <div class="separator"></div>
-			                <h6>MOTTO</h6>
-			                <p>{{ user.slogan }}</p>
-			            </div>
-			        </div>
-			    </div>
-			</div>
+{% block head %}
+		{# Script per gestire la chiamata a panoramio #}
+		<script src="http://www.panoramio.com/wapi/wapi.js?v=1&hl=it" type="text/javascript"></script>
+		{{ parent() }}
+{% endblock %}
 
-			
-			{# add a trip #}
-			<div class="container-fluid">
-			    <div class="row">
-			        <div class="col-xs-12 col-md-6 col-md-offset-3">
-			            <div class="add-trip">
-			                <!-- <form action="new-trip.php"> -->
-			                <form action="{{ path('create/trip', { 'urlid': id }) }}">
-			                    <h4>Dove vorresti andare?</h4><br>
-			                    
-			                    {# Google Place Autocomplete Form #}
-			                    <div id="locationField">
-			                    <input id="autocomplete" placeholder="Inserisci una meta" onFocus="geolocate()" type="text" name="destination"> </input>
-			                    </div> 
-			                    {# end Google Place Autocomplete Form #}
-			                    
-			                    <br><br>
-			                    <h4>Quando vorresti partire?</h4><br>
-			                    <select name="periods">
-									<option value="Indifferente">Indifferente</option>
-									{% for period in periodsList %}
-										<option value="{{ period.description }}">{{ period.description }}</option>
-									{% endfor %}			             
-			                    </select>
-			                    <br><br>
-			                    <input type="submit" id="submit" name="submit" value="Crea viaggio" />
-			                </form>
-							
-			            </div>
-			        </div>
-			    </div>
-			</div>
-
-			{# accordion for trips and comments #}
-			<div class="container-fluid">
-			    <div class="row">
-			        <div class="col-xs-12 col-md-6 col-md-offset-3">
-			        <section id="accordion">
-			            <h6>I tuoi viaggi (5/5)</h6>
-			            
-						{% for trip in tripsList %}
-						<div>
-							<input type="checkbox" id="check-{{ loop.index }}" />
-							<label for="check-{{ loop.index }}">
-								<input type="checkbox" id="check-{{ loop.index }}" />
-			                    <div class="col-xs-10 col-md-11">
-									<h3>{{ trip.destination.name }}</h3>
-								</div>
-			                    <div class="col-xs-2 col-md-1">
-									<a href="{{ path('user/askadvice', { 'urlid': id, 'destination': trip.destination.name, 'period': trip.period.description }) }}">
-										<i class="material-icons">chat</i>
-									</a>
-								</div>				
-									<p>{{ trip.period.description }}</p>								
-			                </label>
-							<article>
-			                    <div class="spacer"></div>
-			                    <a>Elimina viaggio</a>
-								
-								{% for advice in advicesList %}							
-									<div class="separator"></div>
-									<h6>{{ advice.author }}</h6>
-									<p>{{ advice.description }}</p>
-								{% endfor %}
-								
-			                    <div class="separator"></div>
-			                    <a href="#">Carica tutti i commenti</a>								
-			                </article>
+{% block main %}	
+	
+	{# profile info #}
+	<div class="first container-fluid">
+		<div class="row">
+			{% if publicProfile == true %}
+				<div class="circle-cropping">
+					<!-- div nel quale viene caricata la foto ad alta definizione di facebook -->
+					 <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
+						<img class="img-circle" src="{{ userPublic.picture }}" alt="{{ userPublic.username }}">
+					</div>					
+				</div>
+				<div class="col-xs-12 col-sm-8 col-md-4">
+					<div class="block">
+						<div id="profileName">
+							<h2>{{ userPublic.username }}</h2>
 						</div>
+						<div class="separator"></div>
+						<p>{{ userPublic.location }}</p>
+						<div class="separator"></div>
+						<h6>MOTTO</h6>
+						<p>{{ userPublic.motto }}</p>
+					</div>
+				</div>			
+			{% else %}
+				<div class="circle-cropping">
+					<!-- div nel quale viene caricata la foto ad alta definizione di facebook -->
+					 <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
+						<img class="img-circle" src="{{ userConnected.picture }}" alt="{{ userConnected.username }}">
+					</div>					
+				</div>
+				<div class="col-xs-12 col-sm-8 col-md-4">
+					<div class="block">
+						<div id="profileName">
+							<h2>{{ userConnected.username }}</h2>
+						</div>
+						<div class="separator"></div>
+						<p>{{ userConnected.location }}</p>
+						<div class="separator"></div>
+						<h6>MOTTO</h6>
+						<p>{{ userConnected.motto }}</p>
+					</div>
+				</div>	
+			{% endif %}	
+		</div>
+	</div>
+	
+	{% if publicProfile == false %}
+		{# add a trip #}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-md-6 col-md-offset-3">
+					<div class="add-trip">
+						
+						{{ form_start(formNewTrip)}}
+							
+							<h4>Dove vorresti andare?</h4>
+							
+							<div id="locationField">
+								{{ form_widget(formNewTrip.destination, { 'id': 'autocomplete'}) }}
+							</div>
+							<br>
+							<h4>Quando vorresti partire?</h4>							
+													
+							{{ form_widget(formNewTrip.periods) }}
+							
+							{% if countTrip >= 5 %}
+								{{ form_widget(formNewTrip.save, { 'disabled': 'disabled'}) }}
+							{% else %}	
+								{{ form_widget(formNewTrip.save) }}
+							{% endif %}		
+							
+						{{ form_end(formNewTrip) }}			
+						
+					</div>
+				</div>
+			</div>
+		</div>	
+	{% endif %}		
+						
+	{# accordion for trips and comments #}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<section id="accordion">
+				<h6>I tuoi viaggi ({{ countTrip }}/5)</h6>
+				
+				{% for trip in tripsList %}
+				<div>
+					<input type="checkbox" id="check-{{ loop.index }}" />
+					<label for="check-{{ loop.index }}">
+						<input type="checkbox" id="check-{{ loop.index }}" />
+						<div class="row">
+							<div class="col-xs-8 col-md-10">
+								<h3>{{ trip.destination.name }}</h3>
+							</div>
+							{% if publicProfile == false %}
+								<div class="col-xs-2 col-md-1">
+									<a href="{{ path('askadvice', { 'tripId': trip.id, 'destination': trip.destination.name, 'period': trip.period.description }) }}">
+										<i class="material-icons">email</i>
+									</a>
+								</div>
+								<div class="col-xs-2 col-md-1">
+									<a href="{{ path('tripdetails', { 'tripId': trip.id, 'destination': trip.destination.name, 'period': trip.period.description }) }}">
+										<i class="material-icons">date_range</i>
+									</a>
+								</div>
+							{% endif %}
+						</div>
+						<div class="row">
+							<div class="col-xs-12">		
+								<p>{{ trip.period.description }}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+							
+								{# impostazione della request a panoramio #}								
+								
+								<div id="div_list_ex{{ loop.index }}" class="panoramio"></div>							
+								
+								<script type="text/javascript">
+									var destination{{ loop.index }} = 
+									{
+										'tag': '{{trip.destination.name}}',
+										'rect': {'sw': {'lat': {{trip.destination.latitude}}-0.2, 'lng': {{trip.destination.longitude}}-0.2}, 'ne': {'lat': {{trip.destination.latitude}}+0.2, 'lng': {{trip.destination.longitude}}+0.2}}
+									};
+									var list_ex_options{{ loop.index }} = 
+									{
+										'width': 450,
+										'height': 100,
+										'columns': 5,
+										'croppedPhotos': true
+									};
+									var list_ex_widget{{ loop.index }} = new panoramio.PhotoListWidget('div_list_ex{{ loop.index }}', destination{{ loop.index }}, list_ex_options{{ loop.index }});
+									list_ex_widget{{ loop.index }}.setPosition(0);								
+								</script>
+								
+							</div>							
+						</div>						
+					</label>
+					<article>
+						<div class="spacer"></div>
+						{% if publicProfile == false %}
+							<a href="{{ path('archive_trip', { 'tripId': trip.id })}}">Archivia viaggio</a>
+						{% endif %}
+						{% for advice in advicesList %}
+							{% if advice.trip == trip.id %}	
+								<div class="separator"></div>
+								<h6>{{ advice.author }}</h6>
+								<p>{{ advice.description }}</p>
+							{% endif %}	
 						{% endfor %}
 						
-					</section>
-			        </div>
-			    </div>
+						<div class="separator"></div>
+						<a href="#">Carica tutti i commenti</a>								
+					</article>
+				</div>
+				{% endfor %}				
+			</section>
 			</div>
-
+		</div>
+	</div>
+	
+{% endblock %}
+{% block javascripts %}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&signed_in=true&libraries=places&callback=initAutocomplete"async defer></script>
+	<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+	{{ parent() }}	
 {% endblock %}

@@ -45,7 +45,7 @@ class Trip
 	
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="trips")
+	 * @ORM\ManyToOne(targetEntity="Agency", inversedBy="trips")
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	private $user;
@@ -68,11 +68,27 @@ class Trip
 	 * @ORM\OneToMany(targetEntity="Advice", mappedBy="trip")
 	 */
 	private $advices;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Token", mappedBy="trip")
+     */
+    private $tokens;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Plan", mappedBy="trip")
+     */
+    private $plans;
 	
 	// OneToMany relations
 	public function __construct()
 	{
 		$this->advices = new ArrayCollection();
+        $this->tokens = new ArrayCollection();
+        $this->plans = new ArrayCollection();
 	}
 	
 	
@@ -141,7 +157,7 @@ class Trip
      *
      * @return Trip
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\Agency $user = null)
     {
         $this->user = $user;
 
@@ -262,5 +278,39 @@ class Trip
     public function getArchived()
     {
         return $this->archived;
+    }
+
+    /**
+     * Add token
+     *
+     * @param \AppBundle\Entity\Token $token
+     *
+     * @return Trip
+     */
+    public function addToken(\AppBundle\Entity\Token $token)
+    {
+        $this->tokens[] = $token;
+
+        return $this;
+    }
+
+    /**
+     * Remove token
+     *
+     * @param \AppBundle\Entity\Token $token
+     */
+    public function removeToken(\AppBundle\Entity\Token $token)
+    {
+        $this->tokens->removeElement($token);
+    }
+
+    /**
+     * Get tokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
     }
 }

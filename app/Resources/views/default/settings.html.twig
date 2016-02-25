@@ -7,17 +7,17 @@
 		    <div class="row">
 		        <div class="circle-cropping">
 		            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
-		                <img class="img-circle" src="/trippit_symfony/web/img/{{ user.picture }}" alt="Roberta Verdi">
+		                <img class="img-circle" src="{{ userConnected.picture }}" alt="{{ userConnected.username }}">
 		            </div>
 		        </div>
 		        <div class="col-xs-12 col-sm-8 col-md-4">
 		            <div class="block">
-		                <h2>{{ user.name }} {{ user.surname }}</h2>
+		                <h2>{{ userConnected.username }}</h2>
 		                <div class="separator"></div>
-		                <p>{{ user.city }}</p>
+		                <p>{{ userConnected.location }}</p>
 		                <div class="separator"></div>
-		                <h6>MOTTO</h6>
-		                <p>{{ user.slogan }}</p>
+		                <h6>Email di Facebook</h6>
+		                <p>{{ userConnected.email }}</p>
 		            </div>
 		        </div>
 		    </div>
@@ -27,19 +27,23 @@
 		<div class="form-ask row container-fluid">
 		        <div class="col-xs-12 col-md-6 col-md-offset-3">
 		            <div class="block">
-			            <form>
-			                <h3>Impostazioni</h3>
-			                <h5>Aggiungi un indirizzo email</h5>
-			                <input type="text" placeholder="{{ user.firstmail }}" type="text"></input>
-			                <br>
-			                <h5>Aggiungi numero di telefono</h5>
-			                <input type="text" placeholder="{{ user.mobile }}" type="text"></input>
-			                <br>
-			                <h5>Il tuo motto</h5>
-			                <textarea placeholder="{{ user.slogan }}"></textarea>
-			                <input type="submit" id="submit" name="submit" value="Salva" />
-			                <a href="{{ path('user/profile', { 'urlid': id }) }}"><button type="button" class="btn btn-link">Annulla</button></a>
-			            </form>
+						<h3>Impostazioni modificabili</h3>									
+					
+						{{ form_start(formSettings) }}
+							<h5>Indirizzo email alternativo:</h5>
+							{{ form_widget(formSettings.secondMail, {'attr': {'placeholder': userConnected.EmailSecondary } }) }}
+							<br>
+							<h5>Età:</h5>
+							{{ form_widget(formSettings.age, {'attr': {'placeholder': userConnected.age} }) }}
+							<br>
+							<h5>Numero di telefono:</h5>
+							{{ form_widget(formSettings.phone, {'attr': {'placeholder': userConnected.phone} }) }}
+							<br>
+							<h5>Motto:</h5>
+							{{ form_widget(formSettings.motto, {'attr': {'placeholder':  userConnected.motto} }) }}
+							
+							{{ form_widget(formSettings.save, {'attr': {'class': 'btn btn-advice'} }) }}
+						{{ form_end(formSettings) }}
 		            </div>
 		            <div class="spacer"></div>
 		        </div>

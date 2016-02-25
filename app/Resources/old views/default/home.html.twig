@@ -1,0 +1,110 @@
+{% extends "layout-base.html.twig" %}
+
+{% block main %}
+
+		<div class="big-image container-fluid">
+		    <div class="row">
+		        <p>
+		            <h1>Vorresti un consiglio <br> sul tuo prossimo viaggio?</h1>
+		            <h2>Chiedi a un amico!</h2>
+		        </p>
+		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+		            <a href="{{ path('login') }}">
+		            	<button type="button" class="btn-large">
+		            		<i class="material-icons">person</i>
+		            		<span>Accedi con Facebook</span>
+		            	</button>
+		            </a>
+		        </div>
+		    </div>
+		</div>
+
+		<div class="spacer container-fluid">
+		    <div class="row">
+		    </div>
+		</div>
+
+		<div class="container">
+		    <div class="row">
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <img src="/trippit_symfony/web/img/trippit-img-london.jpg" alt="trippit image 1" class="full-width-image">
+		            </div>
+		        </div>
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <div class="separator"></div>  
+		                <h2>Scegli la tua prossima meta</h2>
+		                <p>Città, mare o monti? Scegli la prossima meta del tuo viaggio e indica il periodo in cui vorresti partire.</p>
+		                <span class="text-link"><a>Accedi e scegli la tua meta</a></span>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <div class="separator"></div>  
+		                <h2>Chiedi un consiglio ai tuoi amici</h2>
+		                <p>Scopri subito chi fra i tuoi amici è già stato nei posti in cui vorresti andare e fatti dare un consiglio sulle cose più interessanti da fare e da vedere.</p>
+		                <span class="text-link"><a>Chiedi ai tuoi amici</a></span>
+		            </div>
+		        </div>
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <img src="/trippit_symfony/web/img/trippit-img-friends.jpg" alt="trippit image 2" class="full-width-image">
+		            </div>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <img src="/trippit_symfony/web/img/trippit-img-car.jpg" alt="trippit image 3" class="full-width-image">
+		            </div>
+		        </div>
+		        <div class="col-xs-12 col-md-6">
+		            <div class="block">
+		                <div class="separator"></div>  
+		                <h2>Preparati ad un viaggio unico</h2>
+		                <p>Ora puoi partire con la tua guida personalizzata, piena solo di cose originali e interessanti per te.</p>
+		                <span class="text-link"><a>Programmare il tuo viaggio</a></span>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+		<div class="spacer container-fluid">
+		    <div class="row">
+		    </div>
+		</div>
+
+		<div class="container-fluid">
+		    <div class="col-xs-12">
+		        <div class="separator"></div>  
+		    </div>
+		</div>
+
+		<div class="spacer container-fluid">
+		    <div class="row">
+		    </div>
+		</div>
+
+		<div class="container-fluid">
+		    <div class="row">
+		        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+		            <h4>Accedi con Facebook e inizia subito</h4>
+		            <a href="{{ path('login') }}">
+		            	<button type="button" class="btn-large">
+		            		<i class="material-icons md-48px">person</i>
+		            		Accedi
+		            	</button>
+		            </a>
+		        </div>
+		    </div>
+		</div>
+
+		<div class="spacer container-fluid">
+		    <div class="row">
+		    </div>
+		</div>
+
+{% endblock %}

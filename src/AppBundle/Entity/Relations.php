@@ -23,13 +23,13 @@ class Relations
 
 	
 	/**
-	* @ORM\ManyToOne(targetEntity="User", inversedBy="followers")
+	* @ORM\ManyToOne(targetEntity="Agency", inversedBy="followers")
 	* @ORM\JoinColumn(name="follower_id", referencedColumnName="id")
 	*/
 	private $user_follower;
 	
 	/**
-	* @ORM\ManyToOne(targetEntity="User", inversedBy="followings")
+	* @ORM\ManyToOne(targetEntity="Agency", inversedBy="followings")
 	* @ORM\JoinColumn(name="following_id", referencedColumnName="id")
 	*/
 	private $user_following;
@@ -48,11 +48,11 @@ class Relations
     /**
      * Set userFollower
      *
-     * @param \AppBundle\Entity\User $userFollower
+     * @param \AppBundle\Entity\Agency $userFollower
      *
      * @return Relations
      */
-    public function setUserFollower(\AppBundle\Entity\User $userFollower = null)
+    public function setUserFollower(\AppBundle\Entity\Agency $userFollower = null)
     {
         $this->user_follower = $userFollower;
 
@@ -62,7 +62,7 @@ class Relations
     /**
      * Get userFollower
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Agency
      */
     public function getUserFollower()
     {
@@ -72,11 +72,11 @@ class Relations
     /**
      * Set userFollowing
      *
-     * @param \AppBundle\Entity\User $userFollowing
+     * @param \AppBundle\Entity\Agency $userFollowing
      *
      * @return Relations
      */
-    public function setUserFollowing(\AppBundle\Entity\User $userFollowing = null)
+    public function setUserFollowing(\AppBundle\Entity\Agency $userFollowing = null)
     {
         $this->user_following = $userFollowing;
 
@@ -86,7 +86,7 @@ class Relations
     /**
      * Get userFollowing
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Agency
      */
     public function getUserFollowing()
     {

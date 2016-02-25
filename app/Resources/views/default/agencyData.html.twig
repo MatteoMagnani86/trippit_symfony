@@ -17,11 +17,77 @@
 {% endblock %}
 
 {% block main %}
-<div class="first container-fluid">
+<div class="container-fluid">
+	<div class="row">	
+		<div id="map">
+			<script>		
+				function initMap() 
+				{						
+					/* Definizione dello stile della mappa */
+					var tripItMapType = new google.maps.StyledMapType
+					(
+						[
+							{stylers: [{hue: '#e78000'},{visibility: 'simplified'},{gamma: 0.9},{weight: 0.9}]},
+							{elementType: 'labels',stylers: [{visibility: 'on'}]},
+							{featureType: 'water',stylers: [{color: '#ddfbff'}]}
+						], 
+						{name: 'TrippIt Style'}
+					);
+					
+					var customMapTypeId = 'custom_style';				
+					
+					/* Definizione della mappa */
+					var map = new google.maps.Map(document.getElementById('map'),
+					{
+						zoom: 2,
+						center: {lat: 45, lng: 0},
+						mapTypeControlOptions: 
+						{
+							mapTypeIds: [customMapTypeId, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
+						}
+					});
+					
+					map.mapTypes.set(customMapTypeId, tripItMapType);
+					map.setMapTypeId(customMapTypeId);
+					
+					/* Inserimento dei marker delle destinazioni nella mappa */													
+					{% for destination in destinationsList %}
+
+						if ( {{ destination.user }} === 1)
+						{
+							var color = '1';
+							var title = '{{ destination.name }}' + ' ({{ destination.user }}' + ' utente)'
+						}else if( {{ destination.user }} === 2)
+						{
+							var color = '2';
+							var title = '{{ destination.name }}' + ' ({{ destination.user }}' + ' utenti)'
+						}else	
+						{
+							var color = '3';
+							var title = '{{ destination.name }}' + ' ({{ destination.user }}' + ' utenti)'
+						}
+						
+						var myLatLng = {lat: {{ destination.latitude }}, lng: {{ destination.longitude }}};
+						var marker = new google.maps.Marker({
+							/* icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png', */
+							icon: '/trippit_symfony/web/img/icon-places-' + color + '.png',
+							position: myLatLng,
+							map: map,
+							title: title,
+							animation: google.maps.Animation.DROP
+						});
+					{% endfor %}						
+				}	
+			</script>		
+		</div>
+	</div>
+	
+	
 	<div class="intestazione row">
 		<div class="col-xs-6 col-md-2 col-lg-3"> METE </div>
 		<div class="col-xs-6 col-md-2 col-lg-3"> UTENTI </div>
 	</div>
+	
 	<div class="row">
 		{# in questo div viene inserito l'elenco di destinazioni #}
 		<div class="col-xs-6 col-md-2 col-lg-3">			
@@ -34,15 +100,17 @@
 						<a href="#demo{{ loop.index }}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu"> 
 							{{ destination.name }} 
 							<i class="material-icons md-24px freccetta">expand_more</i>
-							<p class="num-persone-totali">10</p>
+							<p class="num-persone-totali">{{ destination.user }}</p>
 						</a>
 						<div class="collapse" id="demo{{ loop.index }}">
-							{% for period in periodsList %}								
-								<a class="list-group-item">
-									{{ period.description }}
-									<i class="material-icons md-24px freccetta-periodi">chevron_right</i>
-									<p class="num-persone">5</p>
-								</a>									
+							{% for period in periodList %}
+								{% if period.destination == destination.name %}
+									<a class="list-group-item">
+										{{ period.period }}
+										<i class="material-icons md-24px freccetta-periodi">chevron_right</i>
+										<p class="num-persone">{{ period.numpersone }}</p>
+									</a>
+								{% endif %}	
 							{% endfor %}
 						</div>
 					{% endfor %}
@@ -56,12 +124,16 @@
 				<table>
 					{% for user in usersList %}
 						<tr>
-							<td> <img class="immagine" src="/trippit_symfony/web/img/{{ user.picture }}"> </td>
-							<td class="nome"> {{ user.name }} {{ user.surname }} </td>
-							<td> {{ user.city }} </td>
-							<td> {{ user.mobile }} </td>
-							<td class="mail"> {{ user.firstmail }} </td>
-							<td> <a href="{{ path('user/profile', { 'urlid': user.id }) }}"><button class="button" type="submit">VEDI PROFILO</button></a></td>
+							<td> <img class="immagine" src="{{ user.picture }}"> </td>
+							<td class="nome"> {{ user.username }} </td>
+							<td> {{ user.location }} </td>
+							{% if user.phone == 'Inserisci il tuo numero di telefono!' %}
+								<td>  Telefono non inserito </td>
+							{% else %}	
+								<td>  {{ user.phone }} </td>								
+							{% endif %}							
+							<td class="mail"> {{ user.email }} </td>
+							<td> <a href="{{ path('profile',{'userId': user.id}) }}" target="_blank"><button class="button" type="submit">VEDI PROFILO</button></a></td>
 						</tr>
 					{% endfor %}
 				</table>			
@@ -72,42 +144,19 @@
 {% endblock %}
 
 {% block footer %}  
-			<div class="footer agency container-fluid">
-				<div class="row">
-					<div class="col-xs-12 col-md-4 col-md-offset-4">	
-						<a class="logo-footer" href="#" target="_blank"> <img alt="TuttiViaggi" src="/trippit_symfony/web/img/logo-agenzia.png"> </a>
-					</div>	
-				</div>
-				<div class="row">
-					©2015 TuttiViaggi&nbsp;&nbsp;| &nbsp;&nbsp;P.IVA 012344567&nbsp;&nbsp; | &nbsp;&nbsp;Note legali&nbsp;&nbsp; | &nbsp;&nbsp;Cookie policy&nbsp;&nbsp; | &nbsp;&nbsp;Credits
-				</div>
-			</div>
-			
-			{% block javascripts %}
-				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&signed_in=true&libraries=places&callback=initAutocomplete"async defer></script>
-				<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-				<script src="/trippit_symfony/vendor/bootstrap/js/bootstrap.min.js"></script>
-				<script src="/trippit_symfony/web/js/sticky-footer.js"> </script>
-				
-				{# caricamento della libreria di funzioni personalizzate per il progetto #}
-				<script src="js/personal-function.js"> </script>
-
-				{# libreria di funzioni personalizzate: richiamo della funzione di caricamento dati esterni, puntata sul generatore automatico di mete #}
-				<script> 
-					var path = "/trippit_symfony/src/faker-destination.php";
-					var data = "";
-					var classe = ".elenco-mete";
-					richiamaDati(path,data,classe);
-				</script>
-
-				{# libreria di funzioni personalizzate: richiamo della funzione di caricamento dati esterni, puntata sul generatore automatico di persone #}
-				<script> 
-					var path = "/trippit_symfony/src/faker-people.php";
-					var data = "";
-					var classe = ".elenco-persone";
-					richiamaDati(path,data,classe);
-				</script>
-			{% endblock %}
-			
+	<div class="footer agency container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-4 col-md-offset-4">	
+				<a class="logo-footer" href="#" target="_blank"> <img alt="TuttiViaggi" src="/trippit_symfony/web/img/logo-agenzia.png"> </a>
+			</div>	
+		</div>
+		<div class="row">
+			©2015 TuttiViaggi&nbsp;&nbsp;| &nbsp;&nbsp;P.IVA 012344567&nbsp;&nbsp; | &nbsp;&nbsp;Note legali&nbsp;&nbsp; | &nbsp;&nbsp;Cookie policy&nbsp;&nbsp; | &nbsp;&nbsp;Credits
+		</div>
+	</div>
+	
+	{% block javascripts %}
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&callback=initMap" async defer></script>			
+		{{ parent() }}
+	{% endblock %}			
 {% endblock %}

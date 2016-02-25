@@ -1,66 +1,77 @@
-// This example displays an address form, using the autocomplete feature
-// of the Google Places API to help users fill in the information.
 
-var placeSearch, autocomplete;
-var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
-  postal_code: 'short_name'
-};
+// Google Autocomplete Place API
 
-function initAutocomplete() {
-  // Create the autocomplete object, restricting the search to geographical
-  // location types.
-  autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-      {types: ['geocode']});
+function initAutocomplete()
+{
+	// Create the autocomplete object, restricting the search to geographical location types.
+	autocomplete = new google.maps.places.Autocomplete
+	(
+		/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+		{types: ['geocode']}
+	);
 
-  // When the user selects an address from the dropdown, populate the address
-  // fields in the form.
-  autocomplete.addListener('place_changed', fillInAddress);
+	// When the user selects an address from the dropdown, populate the address fields in the form
+	autocomplete.addListener('place_changed', fillInAddress);
 }
 
-// [START region_fillform]
-function fillInAddress() {
-  // Get the place details from the autocomplete object.
-  var place = autocomplete.getPlace();
+function fillInAddress() 
+{	
+	// get the place details from the autocomplete object
+	var place = autocomplete.getPlace();
+	
+	// recupero i parametri da inserire nel database
+	var name = place.name;
+	var lat = place.geometry.location.lat();
+	var lon = place.geometry.location.lng();
+	
+	// siccome l'indirizzo è complesso, per recuperare il 'country' devo fare alcuni controlli
+	for(var i = 0; i < place.address_components.length; i += 1)
+	{
+		var addressObj = place.address_components[i];
+		for(var j = 0; j < addressObj.types.length; j += 1) 
+		{
+			if (addressObj.types[j] === 'country') 
+			{
+				var country = addressObj.long_name;
+			}
+		}
+	}
+	
+	$('#autocomplete').val(name + ", " + country + ", " + lat + ", " + lon);	
+}
 
-  for (var component in componentForm) {
-    document.getElementById(component).value = '';
-    document.getElementById(component).disabled = false;
-  }
+function initAutocompletePlace() 
+{
+	
+// Create the search box and link it to the UI element.
+  var input = document.getElementById('pac-input');
+  var searchBox = new google.maps.places.SearchBox(input); 
+  
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
 
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
-  for (var i = 0; i < place.address_components.length; i++) {
-    var addressType = place.address_components[i].types[0];
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
+    if (places.length == 0) {
+      return;
     }
-  }
-}
-// [END region_fillform]
 
-// [START region_geolocation]
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
-function geolocate() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
+    // For each place, get the icon, name and location.
+    var bounds = new google.maps.LatLngBounds();
+    places.forEach(function(place) {
+      var icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
       };
-      var circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy
-      });
-      autocomplete.setBounds(circle.getBounds());
+	  
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
     });
-  }
+  });
+  // [END region_getplaces]
 }
-// [END region_geolocation]

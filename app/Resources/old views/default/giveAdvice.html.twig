@@ -1,0 +1,55 @@
+{% extends "layout-base.html.twig" %}
+
+{% block main %} 
+	{# profile info #}
+		<div class="first container-fluid">
+		    <div class="row">
+		        <div class="circle-cropping">
+		            <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-2">
+		                <img class="img-circle" src="{{ ProfilePicture }}" alt="{{ userName }}">
+		            </div>
+		        </div>
+		        <div class="col-xs-12 col-sm-8 col-md-4">
+		            <div class="block">
+		                <h2>{{ completeName }}</h2>
+		                <div class="separator"></div>
+		                <p>{{ location }}</p>
+		                <div class="separator"></div>
+		                <h6>MOTTO</h6>
+		                {% if motto == 'Inserisci il tuo motto!' %}
+							<td>  Motto non inserito </td>
+						{% else %}	
+							<td>  {{ motto }} </td>								
+						{% endif %}
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+	{# form #}
+		<div class="form-ask container-fluid">
+		    <div class="row">
+		        <div class="col-xs-12 col-md-6 col-md-offset-3">
+		            <div class="block">						
+						
+						<h3>Dai un consiglio a {{ firstName }}</h3>
+			            <div class="separator"></div>
+						<p>{{ destination.name }} / {{ period.description }}</p>
+						<div class="separator"></div>
+			            <h5>Il tuo consiglio</h5>					
+						
+						{% if tokenAttivo == 'yes' %}
+							{{ form_start(formAdvice) }}
+								{{ form_widget(formAdvice.author, {'attr': {'placeholder': 'Scrivi qui il tuo nome'} }) }}
+								{{ form_widget(formAdvice.advice, {'attr': {'placeholder': ' Scrivi qui il tuo consiglio'} }) }}
+								{{ form_widget(formAdvice.save, {'attr': {'class': 'btn btn-advice'} }) }}
+							{{ form_end(formAdvice) }}
+						{% else %}
+							<h3>Hai già inviato il tuo consiglio</h3>
+						{% endif %}
+		            </div>
+		            <div class="spacer"></div>
+		        </div>
+		    </div>
+		</div>
+{% endblock %}

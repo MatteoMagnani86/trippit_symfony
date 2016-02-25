@@ -79,8 +79,53 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-# app/config/config.yml	
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\Agency
+
+hwi_oauth:
+    connect:
+        account_connector: my_user_provider
+
+    fosub:
+        username_iterations: 30
+        properties:
+            # these properties will be used/redefined later in the custom FOSUBUserProvider service.
+            facebook: facebook_id
+
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           1702794126632962
+            client_secret:       aa7b6f63a2573775428314b793f58081
+            scope:               "email,user_location,user_friends,user_tagged_places"
+            infos_url:           https://graph.facebook.com/me?fields=id,first_name,last_name,email,location,picture.type(large),friends,tagged_places
+            options:
+                display: popup #dialog is optimized for popup window
+                auth_type: rerequest # Re-asking for Declined Permissions
+                csrf: true
+
+    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+    firewall_name:     main
+
+    http_client:
+        verify_peer:   false
+        ignore_errors: false
+
+    # an optional setting to configure a query string parameter which can be used to redirect
+    # the user after authentication, e.g. /connect/facebook?_destination=/my/destination will
+    # redirect the user to /my/destination after facebook authenticates them.  If this is not
+    # set then the user will be redirected to the original resource that they requested, or
+    # the base address if no resource was requested.  This is similar to the behaviour of
+    # [target_path_parameter for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html).
+    # target_path_parameter: _destination
+
+    # an optional setting to use the HTTP REFERER header to be used in case no
+    # previous URL was stored in the session (i.e. no resource was requested).
+    # This is similar to the behaviour of
+    # [using the referring URL for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html#using-the-referring-url).
+    # use_referer: true
+
+    # here you will add one (or more) configurations for resource owners
+    # and other settings you want to adjust in this bundle, just checkout the list below!	

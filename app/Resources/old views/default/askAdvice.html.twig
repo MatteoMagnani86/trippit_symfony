@@ -1,0 +1,48 @@
+{% extends "layout-base.html.twig" %}
+
+{% block main %} 
+	<div class="form-ask first container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<div class="block">
+					<h3>Chiedi un consiglio</h3>
+					<div class="separator"></div>
+					<p> {{ destination }} / {{ period }} </p>
+					<div class="separator"></div>
+				</div>
+			</div>
+		</div>
+
+		{% for flash_message in app.session.flashbag.get('notice') %}
+			<div class="row">
+				<div class= "col-xs-12 col-md-6 col-md-offset-3 notice">
+					<p> {{ flash_message }} </p>
+				</div>
+			</div>
+		{% endfor %}
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<div class="block">
+				<form action="{{ path('askadvice/mail',{'tripId': tripId}) }}" method="post">
+					<input type="checkbox" name="facebook-friends" value="facebook friends" checked />Amici di Facebook <br>
+					
+					{% for friend in friendsList %}
+						<img class='imgStatusLogged' src="{{ friend.userFollowing.picture }}">
+					{% endfor %}	
+					<br><br>
+					<input type="checkbox" name="other-friends" value="other friends" onclick="var input = document.getElementById('eMailReceiver'); if(this.checked){input.disabled = false; input.focus();}else{input.disabled=true;}" unchecked />Altri amici
+					<h6>Invia una richiesta di suggerimento ai tuoi amici che non usano Facebook. Inserisci gli indirizzi email separati dalla virgola.</h6>
+					<input id="eMailReceiver" type="text" placeholder="Es. nomecognome@gmail.com" type="text" name = "eMailReceiver" disabled="disabled" />
+					<br>
+					<h6>Aggiungi un messaggio personalizzato per i tuoi amici.</h6>
+					<textarea placeholder="Il tuo messaggio" name = "eMailBody"></textarea>
+					<input type="submit" id="submit" name="submit" value="Invia" />
+					<a href="{{ path('profile') }}"><button type="button" class="btn btn-link">Annulla</button></a>
+				</form>
+				</div>
+				<div class="spacer"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

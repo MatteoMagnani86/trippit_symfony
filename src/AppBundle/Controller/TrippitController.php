@@ -7,163 +7,125 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Trip;
+use AppBundle\Entity\Agency;
+use AppBundle\Entity\Advice;
 
-// il nome della classe deve essere uguale al nome del file controller
-class TrippitController extends Controller
+class trippitController extends Controller
 {	
-
-	// action per richiamare il login agenzia
-	 // /**
-     // * @Route("/agency/login", name="agency/login")
-     // */
-    // public function loginAction(Request $request)
-	// {
-    //     return $this->render('vendor/friendsofsymfony/user-bundle/Resources/views/Security/login.html.twig');
-    // }
-
-	
-    // action per richiamare il report per l'agenzia
+    // action finalizzata alla creazione della pagina di reportistica dell'agenzia
     /**
      * @Route("/agency/data", name="agency/data")
      */
     public function dataAction(Request $request)
-	{
-		// recupero dal DB tutti gli utenti
-		$erUser = $this->getDoctrine()->getRepository('AppBundle:User');
-		$usersList = $erUser->findAll();
+	{		
+		// recupero dal DB la lista di tutti gli utenti
+		$userRepository = $this->getDoctrine()
+			->getRepository('AppBundle:Agency');
 
-		// recupero dal DB la lista completa dei periodi
-		$erPeriod = $this->getDoctrine()->getRepository('AppBundle:Period');				
-		$periodsList = $erPeriod->findAll();
+		$userQuery = $userRepository->createQueryBuilder('u')
+			->where('u.facebook_access_token IS NOT NULL')
+			->orderBy('u.username', 'ASC')
+			->getQuery();
+
+		$usersList = $userQuery->getResult();	
+		
+		// recupero dal DB la lista dei periodi con i relativi utenti
+		$emPeriod = $this->getDoctrine()->getEntityManager();
+		$queryPeriod = $emPeriod->createQuery('
+			SELECT t.id, p.description AS period, d.name AS destination, COUNT(d.id) AS numpersone
+			FROM AppBundle:period p, AppBundle:destination d, AppBundle:trip t
+			WHERE t.destination = d.id AND t.period = p.id AND t.archived = 0000-00-00
+			GROUP BY p.description, d.name
+			ORDER BY numpersone DESC'
+		);		
+
+		$periodsList = $queryPeriod->getResult();
+				
+		// recupero dal DB la lista delle destinazioni con i relativi utenti
+		$emDestination = $this->getDoctrine()->getEntityManager();
+		$queryDestination = $emDestination->createQuery('
+			SELECT d.name AS name, d.latitude, d.longitude, COUNT(d.id) AS user
+			FROM AppBundle:destination d, AppBundle:trip t, AppBundle:agency u 
+			WHERE d.id = t.destination AND t.user = u.id AND t.archived = 0000-00-00
+			GROUP BY d.name
+			ORDER BY d.name ASC'
+		);
+		
+		$destinationsList = $queryDestination->getResult();
 	
-		// recupero dal DB la lista completa delle destinazione	
-		$erDestination = $this->getDoctrine()->getRepository('AppBundle:Destination');
-        $destinationsList = $erDestination->findAll();
-		
-		// recupero dal DB la lista completa dei viaggi		
-		$erTrip = $this->getDoctrine()->getRepository('AppBundle:Trip');
-        $tripsList = $erTrip->findAll();
-		
 		return $this->render('default/agencyData.html.twig',[
 			'usersList' => $usersList,
-			'periodsList' => $periodsList,
+			'periodList' => $periodsList,
 			'destinationsList' => $destinationsList,
-			'tripsList' => $tripsList,
 		]);	
-    }
+    }	
 	
-	
-	// action per richiamare la home utente
+	// action finalizzata alla creazione della home utente
     /**
-     * @Route("/user/home/{urlid}", name="user/home")
+     * @Route("/home", name="home")
      */
 	public function homeAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');
-        
-		return $this->render('default/home.html.twig',[
-			'id' => $idUtente,
+	{		
+		// istruzioni necessarie all'identificazione dell'utente in base al facebook id di connessione
+		$userManager = $this->container->get('fos_user.user_manager');
+        $userConnected = $userManager->findUserByUsername($this->container->get('security.context')->getToken()->getUser());
+		
+		return $this->render('default/home.html.twig', [
+			'userConnected' => $userConnected,
 		]);
     }
-
 	
-    // action per richiamare il login user
+    // action finalizzata alla creazione della pagina di login utente
     /**
-     * @Route("/user/login/{urlid}", name="user/login")
+     * @Route("/login/", name="login")
      */
     public function userLoginAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');
-		
-        return $this->render('default/userLogin.html.twig',[
-			'id' => $idUtente,
-		]);
+	{		
+        return $this->render('default/userLogin.html.twig');
     }
-
 	
-    // action per richiamare il profilo
+    // action finalizzata alla creazione delle pagina impostazioni utente
     /**
-     * @Route("/user/profile/{urlid}", name="user/profile")
-     */
-    public function profileAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');	
-		
-		// recupero dal DB l'utente, selezionandolo per id utente
-		$erUser = $this->getDoctrine()->getRepository('AppBundle:User');
-		$user = $erUser->find($idUtente);			 
-
-		// recupero dal DB la lista completa dei periodi
-		$erPeriod = $this->getDoctrine()->getRepository('AppBundle:Period');				
-		$periodsList = $erPeriod->findAll();
-				
-		// recupero dal DB la lista completa dei viaggi dell'utente, selezionandoli per id utente		
-		$erTrip = $this->getDoctrine()->getRepository('AppBundle:Trip');
-        $tripsList = $erTrip->findByUser($idUtente);
-		
-		// recupero dal DB la lista completa dei commenti
-		$erAdvice = $this->getDoctrine()->getRepository('AppBundle:Advice');
-        $advicesList = $erAdvice->findByTrip(1);		
-		
-        return $this->render('default/profile.html.twig',[
-			'id' => $idUtente,
-			'user' => $user,
-			'periodsList' => $periodsList,
-			'tripsList' => $tripsList,
-			'advicesList' => $advicesList,
-		]);		
-    }   
-
-	
-    // action per richiamare le impostazioni
-    /**
-     * @Route("/user/settings/{urlid}", name="user/settings")
+     * @Route("/settings", name="settings")
      */
     public function settingsAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');
+	{		
+		// istruzioni necessarie all'identificazione dell'utente in base al facebook id di connessione
+		$userManager = $this->container->get('fos_user.user_manager');
+        $userConnected = $userManager->findUserByUsername($this->container->get('security.context')->getToken()->getUser());	
 		
-		// recupero dal DB l'utente, selezionandolo per id utente
-		$erUser = $this->getDoctrine()->getRepository('AppBundle:User');
-		$user = $erUser->find($idUtente);
+		// form per l'inserimento del commento
+		$formSettings = $this->createFormBuilder()
+			->add('age', 'integer', array('data' => $userConnected->getAge()))
+			->add('secondMail', 'text', array('data' => $userConnected->getEmailSecondary()))
+			->add('phone', 'text', array('data' => $userConnected->getPhone()))
+			->add('motto', 'text', array('data' => $userConnected->getMotto()))
+			->add('save', 'submit', array('label' => 'Salva'))
+			->getForm();	
+			
+		$formSettings->handleRequest($request);	
+		
+		// se il form è valido, salvo il commento inserito
+		if ($formSettings->isValid())
+		{			
+			$data = $formSettings->getData();
+			
+			$userConnected->setAge($data['age']);
+			$userConnected->setEmailSecondary($data['secondMail']);
+			$userConnected->setPhone($data['phone']);
+			$userConnected->setMotto($data['motto']);
 				
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($userConnected);
+			$em->flush();
+
+			return $this->redirect($request->getUri());
+		};
+			
         return $this->render('default/settings.html.twig', [
-			'id' => $idUtente,
-			'user' => $user,			
+			'formSettings' => $formSettings->createView(),
+			'userConnected' => $userConnected,			
 		]);
     }
-
-	
-    // action per richiamare askAdvice
-    /**
-     * @Route("/user/askadvice/{urlid}", name="user/askadvice")
-     */
-    public function askadviceAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');
-		$destination = $request->get('destination');
-		$period = $request->get('period');
-		
-        return $this->render('default/askAdvice.html.twig', [
-			'id' => $idUtente,
-			'destination' => $destination,
-			'period' => $period,
-		]);
-    }
-
-	
-    // action per richiamare giveAdvice
-    /**
-     * @Route("/user/giveadvice{urlid}", name="user/giveadvice")
-     */
-    public function giveadviceAction(Request $request)
-	{
-		$idUtente = $request->get('urlid');
-		
-        return $this->render('default/giveAdvice.html.twig', [
-			'id' => $idUtente,
-		]);
-    }
-	
 }

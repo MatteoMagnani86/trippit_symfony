@@ -1,0 +1,84 @@
+{% extends "layout-base.html.twig" %}
+
+
+{% block main %} 
+<div class="big-image-trip container-fluid">
+	<div class="row">
+		<div class="col-sm-3 affix">
+        	<div class="sidebar-module sidebar-module-inset">
+	        	<div class="col-xs-12">
+	        		<a href="{{ path('profile') }}">
+	        			<img class="img-circle" src="{{ userConnected.picture }}" alt="{{ userConnected.userName }}">
+	        		</a>
+	        	</div>
+				<h3>{{ trip.destination.name }}</h3>
+				<p>{{ trip.period.description }}</p>
+				<div class="sidebar-delete">
+					<a href="{{ path('archive_trip', { 'tripId': trip.id })}}"><i class="material-icons">delete</i></a>
+				</div>
+				<div class="btn-group dropup form-add">
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span><i class="material-icons">add</i></span>
+					<span class="sr-only">Toggle Dropdown</span>
+				  </button>
+				  <ul class="dropdown-menu">
+					{{ form_start(formPlanner) }}
+						<h6>Tappa</h6>
+						{{ form_widget(formPlanner.place, {'id': 'pac-input', 'class': 'controls', 'type': 'text', 'placeholder': 'Search Box'}) }}
+						<h6>Giorno</h6>
+						{{ form_widget(formPlanner.day) }}
+						<h6>Nota</6>
+						{{ form_widget(formPlanner.note) }}
+						{{ form_widget(formPlanner.save) }}
+					{{ form_end(formPlanner) }}
+				  </ul>
+				</div>
+		    </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+
+    	<div class="col-sm-3 blog-sidebar"> <!-- inizio sidebar -->
+          <div class="sidebar-module tips">
+            <h4>Friends' tips</h4>
+			{% for advice in advicesList %}
+				{% if advice.trip == trip.id %}
+					<div class="separator"></div>
+					<h6>{{ advice.author }}</h6>
+					<p><i class="material-icons">star</i>{{ advice.description }}</p>
+					<br>
+					<div class="separator"></div>
+				{% endif %}
+			{% endfor %}
+          </div>
+        </div>                              <!-- fine sidebar -->
+
+        <div class="col-xs-12 col-sm-8 blog-main"> <!-- inizio main -->
+		{% for plan in planList %}
+	        <div class="blog-post"><!-- inizio blog-post -->
+	            <h2 class="blog-post-title">Day {{ plan.day }}</h2>
+	            
+	            {% for place in placeList %}
+	            	<a><i class="material-icons">location_on</i></a>
+		            <h4>{{ place.name }}</h4>
+		            <span class="blog-post-meta">{{ place.city }}, {{ place.nation }}</span>
+		            <p>{{ plan.comment }}</p>
+		        {% endfor %}
+
+	        </div><!-- fine blog-post -->
+	        <div class="separator"></div>
+        {% endfor %}
+        </div>                                     <!-- fine main -->
+
+	</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnMBkXeQglD6u2HEAUFmhOjUOPZemSGpY&libraries=places&callback=initAutocompletePlace" async defer></script>
+	<script src="/trippit_symfony/web/js/script-api-google.js"> </script>
+	{{ parent() }}	
+{% endblock %}
